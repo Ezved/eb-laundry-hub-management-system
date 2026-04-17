@@ -42,8 +42,6 @@
 
         $estimatedTotal = $serviceSubtotal + $comforterSubtotal + $addonSubtotal + $pickupCharge;
 
-        $money = fn($value) => '₱ ' . number_format((float) $value, 2);
-
         $paymentMethod = $payload['payment_method'] ?? '';
         $pickupDate = $payload['pickup_date'] ?? '';
         $pickupTime = $payload['pickup_time'] ?? '';
@@ -113,12 +111,12 @@
 
                             <div class="detail-row">
                                 <div class="detail-label">Price per Load</div>
-                                <div class="detail-value">{{ $money($servicePrice) }}</div>
+                                <div class="detail-value"><span class="peso">₱</span> {{ number_format((float) $servicePrice, 2) }}</div>
                             </div>
 
                             <div class="detail-row">
                                 <div class="detail-label">Service Subtotal</div>
-                                <div class="detail-value strong">{{ $money($serviceSubtotal) }}</div>
+                                <div class="detail-value strong"><span class="peso">₱</span> {{ number_format((float) $serviceSubtotal, 2) }}</div>
                             </div>
                         </div>
                     </section>
@@ -148,7 +146,7 @@
                                 </div>
                                 <div class="detail-row subtotal-row">
                                     <div class="detail-label">Subtotal</div>
-                                    <div class="detail-value strong">{{ $money($comforterSubtotal) }}</div>
+                                    <div class="detail-value strong"><span class="peso">₱</span> {{ number_format((float) $comforterSubtotal, 2) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +177,7 @@
                                 </div>
                                 <div class="detail-row subtotal-row">
                                     <div class="detail-label">Subtotal</div>
-                                    <div class="detail-value strong">{{ $money($addonSubtotal) }}</div>
+                                    <div class="detail-value strong"><span class="peso">₱</span> {{ number_format((float) $addonSubtotal, 2) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -195,7 +193,7 @@
                         <div class="detail-list">
                             <div class="detail-row">
                                 <div class="detail-label">Pickup / Delivery Charge</div>
-                                <div class="detail-value">{{ $money($pickupCharge) }}</div>
+                                <div class="detail-value"><span class="peso">₱</span> {{ number_format((float) $pickupCharge, 2) }}</div>
                             </div>
 
                             <div class="detail-row">
@@ -228,24 +226,24 @@
                         <div class="total-breakdown">
                             <div class="total-line">
                                 <span>Service</span>
-                                <strong>{{ $money($serviceSubtotal) }}</strong>
+                                <strong><span class="peso">₱</span> {{ number_format((float) $serviceSubtotal, 2) }}</strong>
                             </div>
                             <div class="total-line">
                                 <span>Comforters</span>
-                                <strong>{{ $money($comforterSubtotal) }}</strong>
+                                <strong><span class="peso">₱</span> {{ number_format((float) $comforterSubtotal, 2) }}</strong>
                             </div>
                             <div class="total-line">
                                 <span>Add-ons</span>
-                                <strong>{{ $money($addonSubtotal) }}</strong>
+                                <strong><span class="peso">₱</span> {{ number_format((float) $addonSubtotal, 2) }}</strong>
                             </div>
                             <div class="total-line">
                                 <span>Pickup / Delivery</span>
-                                <strong>{{ $money($pickupCharge) }}</strong>
+                                <strong><span class="peso">₱</span> {{ number_format((float) $pickupCharge, 2) }}</strong>
                             </div>
 
                             <div class="grand-total">
                                 <span>Estimated Total</span>
-                                <div>{{ $money($estimatedTotal) }}</div>
+                                <div><span class="peso">₱</span> {{ number_format((float) $estimatedTotal, 2) }}</div>
                             </div>
                         </div>
                     </section>
@@ -279,16 +277,24 @@
             <div class="modal-content thankyou-modal">
                 <button type="button" class="btn-close thankyou-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-                <div class="thankyou-icon">
-                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M20 7L10 17L4 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                <div class="thankyou-topbar"></div>
+
+                <div class="thankyou-body">
+                    <div class="thankyou-icon">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M20 7L10 17L4 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+
+                    <h2>Order Received</h2>
+                    <p id="thankYouMessage">
+                        Thank you for choosing E&amp;B Laundry Hub. Your order has been placed successfully and an order receipt has been sent to your email.
+                    </p>
+
+                    <a href="{{ route('user.dashboard') }}" class="btn-pink" id="thankYouBackBtn">
+                        Back to Dashboard
+                    </a>
                 </div>
-
-                <h2>Order Received.<br>Thank You For Choosing Us!</h2>
-                <p id="thankYouMessage">An order receipt has been sent to your email.</p>
-
-                <a href="{{ route('user.dashboard') }}" class="btn-pink" id="thankYouBackBtn">Back to Dashboard</a>
             </div>
         </div>
     </div>
@@ -333,7 +339,7 @@
                     }
 
                     if (thankYouMessage) {
-                        let message = 'An order receipt has been sent to your email.';
+                        let message = 'Thank you for choosing E&B Laundry Hub. Your order has been placed successfully and an order receipt has been sent to your email.';
                         if (result.order_id) {
                             message = `Your order #${result.order_id} has been placed successfully. An order receipt has been sent to your email.`;
                         }
