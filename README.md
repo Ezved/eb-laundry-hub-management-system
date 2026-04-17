@@ -101,8 +101,5 @@ Ateneo de Davao University
 ## Acknowledgement
 
 Special thanks to:
-
-- E&B Laundry Hub  
-- Project advisers and instructors  
-
-  ## This project will be deployed soon
+E&B Laundry Hub  
+Project advisers and instructors 
