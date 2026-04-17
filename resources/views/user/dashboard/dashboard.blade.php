@@ -99,7 +99,6 @@
                             Settings
                         </a>
                     </li>
-                    <li><hr class="dropdown-divider"></li>
                     <li>
                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
                             @csrf

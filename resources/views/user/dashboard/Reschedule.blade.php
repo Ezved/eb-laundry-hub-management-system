@@ -8,86 +8,105 @@
     <title>Reschedule Order</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap"
         rel="stylesheet">
     <link href="{{ asset('css/user/dashboard/booking.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ asset('images/E&B_Logo.png') }}" type="image/png">
 
     <style>
-        .card-header {
-            background: #173F7B;
-            color: #fff;
-        }
-
-        .card-header h1 {
-            color: #fff;
-        }
-
-        .btn-back {
-            background: #dc3545;
-            border: 1px solid #dc3545;
-            color: #fff;
-        }
-
-        .btn-back:hover {
-            background: #bb2d3b;
-            border-color: #bb2d3b;
-            color: #fff;
-        }
-
-        .btn-primary {
-            background: #198754;
-            border: 1px solid #198754;
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background: #157347;
-            border-color: #157347;
-            color: #fff;
-        }
-
-        .actions {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-top: 16px;
-        }
-
         .order-info {
-            background: rgba(255, 255, 255, 0.6);
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(23, 63, 123, 0.10);
+            padding: 18px 20px;
+            border-radius: 18px;
+            margin-bottom: 22px;
+            box-shadow: 0 12px 30px rgba(13, 42, 82, 0.06);
         }
 
         .order-info h5 {
             color: #173F7B;
-            font-weight: 700;
-            margin-bottom: 12px;
+            font-weight: 800;
+            margin-bottom: 14px;
             font-size: 18px;
+            font-family: 'Inter', sans-serif;
         }
 
         .order-info .info-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #e7c8f1;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(23, 63, 123, 0.08);
         }
 
         .order-info .info-row:last-child {
             border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .order-info .info-row:first-of-type {
+            padding-top: 0;
         }
 
         .order-info .info-label {
-            font-weight: 600;
-            color: #6c6c6c;
+            font-weight: 700;
+            color: #6b7280;
+            font-size: 14px;
         }
 
         .order-info .info-value {
-            font-weight: 600;
+            font-weight: 700;
             color: #173F7B;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .self-pickup-wrap {
+            margin-top: 4px;
+        }
+
+        .self-pickup-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+        }
+
+        .self-pickup-label input[type="checkbox"] {
+            accent-color: #ff6ef7;
+            width: 15px;
+            height: 15px;
+        }
+
+        .reschedule-submit {
+            min-width: 190px;
+            text-align: center;
+        }
+
+        @media (max-width: 767.98px) {
+            .order-info {
+                padding: 16px;
+            }
+
+            .order-info .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .order-info .info-value {
+                text-align: left;
+            }
+
+            .reschedule-submit {
+                width: 100%;
+                min-width: 0;
+            }
         }
     </style>
 </head>
@@ -115,34 +134,36 @@
                 {{-- Order Information Display --}}
                 <div class="order-info">
                     <h5>Order Information</h5>
+
                     <div class="info-row">
                         <span class="info-label">Order ID:</span>
                         <span class="info-value">#{{ $order->id }}</span>
                     </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Service:</span>
+                        <span class="info-value">{{ $order->service_type ?? 'Full Service' }}</span>
+                    </div>
+
                     <div class="info-row">
                         <span class="info-label">Current Pickup Date:</span>
                         <span class="info-value">
-                            @if ($order->pickup_date)
-                                {{ $order->pickup_date->format('M d, Y') }}
-                            @else
-                                —
-                            @endif
+                            {{ $order->pickup_date ? $order->pickup_date->format('F d, Y') : '—' }}
                         </span>
                     </div>
+
                     <div class="info-row">
                         <span class="info-label">Current Pickup Time:</span>
                         <span class="info-value">{{ $order->pickup_time ?? '—' }}</span>
                     </div>
+
                     <div class="info-row">
                         <span class="info-label">Current Delivery Date:</span>
                         <span class="info-value">
-                            @if ($order->delivery_date)
-                                {{ $order->delivery_date->format('M d, Y') }}
-                            @else
-                                —
-                            @endif
+                            {{ $order->delivery_date ? $order->delivery_date->format('F d, Y') : '—' }}
                         </span>
                     </div>
+
                     <div class="info-row">
                         <span class="info-label">Current Delivery Time:</span>
                         <span class="info-value">{{ $order->delivery_time ?? '—' }}</span>
@@ -154,8 +175,12 @@
 
                     <div class="grid">
                         <div class="field">
-                            <label>New Pickup Date<span class="hint">*</span></label>
-                            <input type="date" name="pickup_date" id="pickup_date" required
+                            <label>New Pickup Date <span class="hint">*</span></label>
+                            <input
+                                type="date"
+                                name="pickup_date"
+                                id="pickup_date"
+                                required
                                 value="{{ old('pickup_date', $order->pickup_date ? $order->pickup_date->format('Y-m-d') : '') }}">
                         </div>
 
@@ -174,13 +199,23 @@
 
                         <div class="field">
                             <label>New Delivery Date <span class="hint">(Optional)</span></label>
-                            <input type="date" name="delivery_date" id="delivery_date"
+                            <input
+                                type="date"
+                                name="delivery_date"
+                                id="delivery_date"
                                 value="{{ old('delivery_date', $order->delivery_date ? $order->delivery_date->format('Y-m-d') : '') }}">
-                            <label class="hint" style="margin-top:2px;">
-                                <input type="checkbox" name="self_pickup" id="self_pickup" value="1"
-                                    {{ old('self_pickup') ? 'checked' : '' }}>
-                                I will pickup my own laundry
-                            </label>
+
+                            <div class="self-pickup-wrap">
+                                <label class="self-pickup-label">
+                                    <input
+                                        type="checkbox"
+                                        name="self_pickup"
+                                        id="self_pickup"
+                                        value="1"
+                                        {{ old('self_pickup') ? 'checked' : '' }}>
+                                    I will pickup my own laundry
+                                </label>
+                            </div>
                         </div>
 
                         <div class="field">
@@ -210,17 +245,15 @@
                             <li>Rescheduling is subject to availability.</li>
                             <li>E&B Laundry Hub is open daily from <strong>8 am to 8 pm</strong>.</li>
                             <li>Pickups are only available from <strong>8 am to 6 pm</strong>.</li>
-                            <li>You can only reschedule orders that are <strong>pending</strong> or <strong>for
-                                    pickup</strong>.</li>
-                            <li>For urgent concerns, contact <strong>09301902025</strong> or message us on Messenger.
-                            </li>
+                            <li>You can only reschedule orders that are <strong>pending</strong> or <strong>for pickup</strong>.</li>
+                            <li>For urgent concerns, contact <strong>09301902025</strong> or message us on Messenger.</li>
                         </ul>
                     </div>
 
                     {{-- Actions --}}
                     <div class="actions">
                         <a href="{{ route('user.dashboard') }}" class="btn btn-back">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Confirm Reschedule</button>
+                        <button type="submit" class="btn btn-primary reschedule-submit">Confirm Reschedule</button>
                     </div>
                 </form>
             </div>
@@ -249,11 +282,14 @@
                 label = label.toLowerCase().trim();
                 const parts = label.split(" ");
                 if (parts.length < 2) return null;
+
                 let hour = parseInt(parts[0], 10);
                 if (isNaN(hour)) return null;
+
                 const ampm = parts[1];
                 if (ampm === "pm" && hour !== 12) hour += 12;
                 if (ampm === "am" && hour === 12) hour = 0;
+
                 return hour;
             }
 
@@ -269,6 +305,7 @@
 
                 function processSelect(selectEl, isToday) {
                     if (!selectEl) return;
+
                     for (let i = 0; i < selectEl.options.length; i++) {
                         const opt = selectEl.options[i];
 
@@ -283,6 +320,7 @@
                         }
 
                         const hour24 = parseHour(opt.textContent || opt.value);
+
                         if (hour24 === null) {
                             opt.disabled = false;
                             continue;
@@ -298,33 +336,26 @@
 
             function applySelfPickupEffects() {
                 if (!selfPickup) return;
+
                 const isSelf = selfPickup.checked;
 
                 if (deliveryInput) {
                     deliveryInput.disabled = isSelf;
                     if (isSelf) deliveryInput.value = "";
                 }
+
                 if (deliveryTimeSel) {
                     deliveryTimeSel.disabled = isSelf;
                     if (isSelf) deliveryTimeSel.value = "";
                 }
             }
 
-            if (selfPickup) {
-                selfPickup.addEventListener("change", function() {
-                    applySelfPickupEffects();
-                    updateTimeOptions();
-                });
-            }
+            pickupInput?.addEventListener("change", updateTimeOptions);
+            deliveryInput?.addEventListener("change", updateTimeOptions);
+            selfPickup?.addEventListener("change", applySelfPickupEffects);
 
-            [pickupInput, deliveryInput, pickupTimeSel, deliveryTimeSel].forEach(el => {
-                if (!el) return;
-                el.addEventListener("input", updateTimeOptions);
-                el.addEventListener("change", updateTimeOptions);
-            });
-
-            applySelfPickupEffects();
             updateTimeOptions();
+            applySelfPickupEffects();
         });
     </script>
 </body>

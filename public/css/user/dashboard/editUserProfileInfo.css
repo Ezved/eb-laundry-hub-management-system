@@ -1,6 +1,6 @@
 /* ============================================================
-   E&B Laundry Hub - User Dashboard
-   Clean final version
+   E&B Laundry Hub - Edit Admin Profile
+   Matches dashboard design exactly
    ============================================================ */
 
 * {
@@ -254,6 +254,10 @@ body {
     color: #4c6ea0;
 }
 
+.active-profile-link {
+    background: var(--pink-soft);
+}
+
 #btn-logout {
     color: #d93025;
 }
@@ -262,7 +266,6 @@ body {
     color: #b3261e;
 }
 
-/* Desktop collapsed sidebar */
 body.sidebar-collapsed #side-bar {
     width: var(--sidebar-collapsed);
     flex-basis: var(--sidebar-collapsed);
@@ -314,7 +317,12 @@ body.sidebar-collapsed #side-bar hr {
     font-size: 32px;
     font-weight: 800;
     letter-spacing: -0.8px;
-    margin-bottom: 8px;
+    margin-bottom: 0;
+}
+
+.page-subtitle {
+    color: #6b7280;
+    font-size: 14px;
 }
 
 .main-content > hr {
@@ -326,43 +334,7 @@ body.sidebar-collapsed #side-bar hr {
     padding: 0;
 }
 
-/* ================= MAIN CARD ================= */
-
-.card {
-    background: rgba(255,255,255,.94);
-    border: 1px solid rgba(23,63,123,.06);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    overflow: hidden;
-    margin-top: 20px;
-}
-
-#card-header {
-    padding: 20px 22px 16px;
-    background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(249,249,255,.96));
-    border-bottom: 1px solid rgba(23,63,123,.06);
-}
-
-#card-header h2 {
-    font-family: var(--font-head);
-    color: var(--navy);
-    font-weight: 800;
-    letter-spacing: -0.5px;
-}
-
-.orders-count {
-    color: var(--muted) !important;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.btn-walkin {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-#btn-booking {
+.btn-profile-back {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -374,316 +346,219 @@ body.sidebar-collapsed #side-bar hr {
     border-radius: var(--radius-pill);
     font-weight: 700;
     border: none;
-    box-shadow: 0 10px 26px rgba(255,110,247,.22);
     text-decoration: none;
+    box-shadow: 0 10px 26px rgba(255,110,247,.22);
     transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
-#btn-booking:hover {
+.btn-profile-back:hover {
     background: #f954ea;
     color: #fff !important;
     transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(255,110,247,.28);
 }
 
-#btn-booking.disabled,
-#btn-booking[aria-disabled="true"] {
-    background: #d3d6e2;
-    color: #6f778d !important;
-    box-shadow: none;
-}
+/* ================= ALERTS ================= */
 
-.cap-note {
-    margin-top: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    color: #d93025;
-}
-
-/* ================= TABLE ================= */
-
-.card-body {
-    padding: 20px;
-}
-
-.recent-orders-table-scroll {
-    max-height: 560px;
-    overflow: auto;
-    border-radius: 18px;
-    border: 1px solid rgba(23,63,123,.08);
-    background: #fff;
-    -webkit-overflow-scrolling: touch;
-}
-
-.admin-orders-table {
-    margin-bottom: 0;
-    min-width: 1080px;
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
-.admin-orders-table,
-.admin-orders-table * {
-    box-shadow: none !important;
-    border: none !important;
-}
-
-.admin-orders-table col.col-booked-on { width: 18%; }
-.admin-orders-table col.col-order-details { width: 14%; }
-.admin-orders-table col.col-total-payment { width: 14%; }
-.admin-orders-table col.col-receipt { width: 12%; }
-.admin-orders-table col.col-payment-status { width: 14%; }
-.admin-orders-table col.col-laundry-status { width: 16%; }
-.admin-orders-table col.col-actions { width: 12%; }
-
-.admin-orders-table thead th {
-    position: sticky;
-    top: 0;
-    z-index: 5;
-    background: var(--navy) !important;
-    color: #fff !important;
-    vertical-align: middle !important;
-    font-family: var(--font-head);
-    font-size: 13px;
-    font-weight: 700;
-    padding: 14px 12px;
-    white-space: nowrap;
-    text-align: center !important;
-}
-
-.admin-orders-table thead th:first-child {
-    text-align: left !important;
-}
-
-.admin-orders-table tbody tr {
-    transition: background var(--transition);
-}
-
-.admin-orders-table tbody tr:nth-child(even) {
-    background: #fcfcff;
-}
-
-.admin-orders-table tbody tr:hover {
-    background: #f8f4ff;
-}
-
-.admin-orders-table td {
-    padding: 14px 12px;
-    border-top: 1px solid var(--gray-line) !important;
-    vertical-align: middle;
-    font-size: 14px;
-    color: var(--muted);
-    text-align: center;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-.admin-orders-table tbody td:first-child {
-    text-align: left;
-}
-
-.admin-orders-table tbody td:nth-child(3) {
-    font-weight: 700;
-    color: var(--navy);
-}
-
-.admin-orders-table .btn,
-.admin-orders-table .btn-outline-primary,
-.admin-orders-table .btn-outline-secondary {
-    border-radius: var(--radius-pill);
-    font-size: 13px;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.admin-orders-table .btn-outline-primary {
-    border-radius: 999px;
+.eb-alert-success,
+.eb-alert-danger {
+    border: none;
+    border-radius: 16px;
+    box-shadow: var(--shadow-soft);
+    padding: 14px 16px;
     font-weight: 600;
-    padding: 6px 14px;
-    border: 1px solid rgba(23,63,123,.18);
-    color: var(--navy);
-    background: #fff;
-    transition: all .2s ease;
 }
 
-.admin-orders-table .btn-outline-primary:hover,
-.admin-orders-table .btn-outline-primary:focus {
-    background: var(--pink);
-    border-color: var(--pink);
+.eb-alert-success {
+    background: #eaf8ef;
+    color: #1d6b37;
+}
+
+.eb-alert-danger {
+    background: #fff1f1;
+    color: #b3261e;
+}
+
+/* ================= PROFILE CARD ================= */
+
+.profile-card {
+    background: rgba(255,255,255,.94);
+    border: 1px solid rgba(23,63,123,.06);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.profile-card-header {
+    padding: 22px 24px 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(249,249,255,.96));
+    border-bottom: 1px solid rgba(23,63,123,.06);
+}
+
+.profile-card-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.profile-avatar {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #173F7B, #0d2a52);
     color: #fff;
-    box-shadow: 0 8px 18px rgba(255, 110, 247, .25);
-}
-
-.admin-orders-table .link-primary {
-    color: var(--navy) !important;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.admin-orders-table .link-primary:hover {
-    color: var(--pink) !important;
-    text-decoration: underline;
-    text-decoration-color: var(--pink);
-}
-
-.table-danger {
-    background: #fff2f2 !important;
-}
-
-.badge {
-    border-radius: var(--radius-pill);
-    padding: 7px 12px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .02em;
-    white-space: nowrap;
-}
-
-/* ================= ACTIONS DROPDOWN ================= */
-
-.admin-orders-table td.actions,
-.admin-orders-table th.actions {
-    text-align: center !important;
-    vertical-align: middle !important;
-    overflow: visible !important;
-}
-
-.action-dropdown {
-    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    font-size: 32px;
+    box-shadow: 0 12px 28px rgba(13,42,82,.16);
+    flex-shrink: 0;
 }
 
-.action-menu-template {
-    display: none !important;
+.profile-card-title {
+    font-family: var(--font-head);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.4px;
 }
 
-.eandb-kebab {
+.profile-card-subtitle {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.profile-card-body {
+    padding: 24px;
+}
+
+/* ================= FORM ================= */
+
+.profile-form .row {
+    --bs-gutter-x: 1rem;
+    --bs-gutter-y: 1rem;
+}
+
+.profile-label {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.profile-input {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid rgba(23,63,123,.10);
     background: #fff !important;
-    border: 1px solid rgba(23, 63, 123, .15) !important;
-    color: #6b7280 !important;
-    width: 34px;
-    height: 34px;
-    min-width: 34px;
-    min-height: 34px;
-    border-radius: 10px;
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    padding: 0 !important;
-    margin: 0 !important;
-    box-shadow: 0 4px 10px rgba(13, 42, 82, .06);
-    transition: all .2s ease;
-    cursor: pointer;
+    color: #000 !important;
+    min-height: 50px;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: none !important;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.profile-input:focus {
+    border-color: rgba(255,110,247,.65);
+    box-shadow: 0 0 0 4px rgba(255,110,247,.12) !important;
     outline: none;
 }
 
-.eandb-kebab:hover,
-.eandb-kebab:focus {
-    background: var(--pink-soft) !important;
-    border-color: rgba(255, 110, 247, .4) !important;
-    color: var(--pink) !important;
-    transform: scale(1.05);
+.profile-input::placeholder,
+.profile-textarea::placeholder {
+    color: transparent;
 }
 
-.eandb-kebab:disabled {
-    opacity: .55;
-    pointer-events: none;
+.profile-textarea {
+    min-height: 120px;
+    resize: vertical;
 }
 
-.action-menu-portal {
-    position: fixed;
-    z-index: 99999;
-    min-width: 190px;
-    max-width: min(240px, calc(100vw - 24px));
-    border-radius: 16px;
-    border: 1px solid rgba(23, 63, 123, .12);
-    padding: 8px;
-    background: #fff;
-    box-shadow: 0 18px 40px rgba(13, 42, 82, 0.14);
+.profile-input.is-invalid {
+    background-image: none !important;
 }
 
-.action-menu-portal form {
-    margin: 0;
+.invalid-feedback.d-block {
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 600;
 }
 
-.action-menu-portal .action-item,
-.action-menu-portal button.action-item,
-.action-menu-portal a.action-item,
-.action-menu-portal span.action-item {
+/* ================= SIDE CARD ================= */
+
+.profile-side-card {
+    height: 100%;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfbff 100%);
+    border: 1px solid rgba(23,63,123,.08);
+    border-radius: 22px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(13,42,82,.05);
+}
+
+.profile-side-title {
+    font-family: var(--font-head);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 18px;
+}
+
+/* ================= ACTIONS ================= */
+
+.profile-form-actions {
+    margin-top: 24px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    min-height: 42px;
-    padding: 10px 12px;
-    margin: 0;
-    border: 1px solid transparent;
-    border-radius: 10px;
-    background: transparent;
-    box-shadow: none;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.2;
-    font-family: var(--font-body);
-    white-space: nowrap;
-    color: var(--navy);
-    text-align: left;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-cancel-profile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 20px;
+    border-radius: var(--radius-pill);
+    font-weight: 700;
+    background: #fff;
+    color: #dc3545;
+    border: 1px solid rgba(220,53,69,.28);
     text-decoration: none;
-    appearance: none;
-    -webkit-appearance: none;
-    cursor: pointer;
+    transition: all .2s ease;
 }
 
-.action-menu-portal .action-item:hover,
-.action-menu-portal .action-item:focus {
-    background: var(--pink-soft);
-    color: var(--navy);
-    border-color: rgba(255, 110, 247, .25);
+.btn-cancel-profile:hover {
+    background: #dc3545;
+    color: #fff;
+    border-color: #dc3545;
+    transform: translateY(-1px);
 }
 
-.action-menu-portal .action-item-danger {
-    color: #dc3545;
-}
-
-.action-menu-portal .action-item-danger:hover,
-.action-menu-portal .action-item-danger:focus {
-    background: rgba(220, 53, 69, .08);
-    color: #dc3545;
-}
-
-/* ================= MODALS ================= */
-
-.modal-content {
+.btn-save-profile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 20px;
+    border-radius: var(--radius-pill);
+    font-weight: 700;
     border: none;
-    border-radius: 22px;
-    overflow: hidden;
-    box-shadow: var(--shadow-card);
+    background: var(--pink);
+    color: #fff;
+    box-shadow: 0 10px 26px rgba(255,110,247,.22);
+    transition: all .2s ease;
 }
 
-.modal-header {
-    border-bottom: none;
-}
-
-.modal-footer {
-    border-top: none;
-}
-
-.modal-body {
-    color: var(--muted);
-    line-height: 1.75;
-}
-
-.modal .btn-primary {
-    background: var(--navy);
-    border-color: var(--navy);
-}
-
-.modal .btn-primary:hover {
-    background: var(--navy-dark);
-    border-color: var(--navy-dark);
+.btn-save-profile:hover {
+    background: #f954ea;
+    color: #fff;
+    transform: translateY(-1px);
 }
 
 /* ================= RESPONSIVE ================= */
@@ -702,10 +577,6 @@ body.sidebar-collapsed #side-bar hr {
 
     .page-title {
         font-size: 29px;
-    }
-
-    .admin-orders-table {
-        min-width: 1040px;
     }
 }
 
@@ -771,26 +642,9 @@ body.sidebar-collapsed #side-bar hr {
         font-size: 26px;
     }
 
-    #card-header {
-        padding: 18px;
-    }
-
-    .btn-walkin {
-        width: 100%;
-        align-items: stretch;
-        margin-top: 10px;
-    }
-
-    #btn-booking {
-        width: 100%;
-    }
-
-    .recent-orders-table-scroll {
-        max-height: none;
-    }
-
-    .admin-orders-table {
-        min-width: 980px;
+    .profile-card-header,
+    .profile-card-body {
+        padding: 20px;
     }
 }
 
@@ -811,31 +665,41 @@ body.sidebar-collapsed #side-bar hr {
         font-size: 23px;
     }
 
-    #card-header {
+    .page-subtitle {
+        font-size: 13px;
+    }
+
+    .profile-card-header,
+    .profile-card-body {
         padding: 16px;
     }
 
-    #card-header .d-flex.align-items-center.justify-content-between.w-100 {
-        flex-direction: column;
-        align-items: stretch !important;
-        gap: 12px;
+    .profile-card-title-wrap {
+        align-items: flex-start;
     }
 
-    .orders-count {
-        display: inline-block;
-        margin-top: 6px;
+    .profile-avatar {
+        width: 58px;
+        height: 58px;
+        font-size: 28px;
     }
 
-    .card-body {
-        padding: 12px;
+    .profile-card-title {
+        font-size: 22px;
     }
 
-    .admin-orders-table {
-        min-width: 920px;
+    .btn-profile-back,
+    .btn-cancel-profile,
+    .btn-save-profile {
+        width: 100%;
     }
 
-    .card {
-        border-radius: 20px;
+    .profile-form-actions {
+        justify-content: stretch;
+    }
+
+    .profile-side-card {
+        padding: 18px;
     }
 }
 
@@ -862,55 +726,36 @@ body.sidebar-collapsed #side-bar hr {
         font-size: 21px;
     }
 
-    #card-header {
+    .profile-card {
+        border-radius: 20px;
+    }
+
+    .profile-card-header,
+    .profile-card-body {
         padding: 14px;
     }
 
-    #card-header h2 {
+    .profile-avatar {
+        width: 52px;
+        height: 52px;
+        font-size: 24px;
+    }
+
+    .profile-card-title {
         font-size: 20px;
     }
 
-    .card-body {
-        padding: 10px;
+    .profile-input {
+        min-height: 48px;
+        font-size: 13px;
     }
 
-    .admin-orders-table {
-        min-width: 880px;
+    .profile-side-card {
+        border-radius: 18px;
+        padding: 16px;
     }
 
-    .recent-orders-table-scroll {
-        border-radius: 14px;
+    .profile-side-title {
+        font-size: 18px;
     }
 }
-
-.admin-orders-table col.col-booked-on { width: 14%; }
-.admin-orders-table col.col-order-details { width: 12%; }
-.admin-orders-table col.col-total-payment { width: 15%; }
-.admin-orders-table col.col-receipt { width: 11%; }
-.admin-orders-table col.col-payment-status { width: 16%; }
-.admin-orders-table col.col-laundry-status { width: 18%; }
-.admin-orders-table col.col-actions { width: 14%; }
-
-.admin-orders-table td {
-    padding: 14px 10px;
-    border-top: 1px solid var(--gray-line) !important;
-    vertical-align: middle;
-    font-size: 14px;
-    color: var(--muted);
-    text-align: center;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-.admin-orders-table thead th:first-child,
-.admin-orders-table tbody td:first-child {
-    text-align: left;
-    padding-right: 8px;
-}
-
-.admin-orders-table thead th:nth-child(2),
-.admin-orders-table tbody td:nth-child(2) {
-    padding-left: 8px;
-    padding-right: 8px;
-}
-

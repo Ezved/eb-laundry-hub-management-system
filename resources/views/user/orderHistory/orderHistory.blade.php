@@ -5,21 +5,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Order History</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <link href="{{ asset('css/user/dashboard/dashboard.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ asset('images/E&B_Logo.png') }}" type="image/png">
+
+    <style>
+        .history-wrap .orders-count {
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        .history-empty {
+            padding: 28px 16px !important;
+            color: var(--muted) !important;
+            font-weight: 600;
+        }
+
+        .history-receipt-link {
+            color: var(--navy) !important;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .history-receipt-link:hover {
+            color: var(--pink) !important;
+            text-decoration: underline;
+            text-decoration-color: var(--pink);
+        }
+
+        .history-status-badge {
+            min-width: 92px;
+        }
+
+        .history-paid-badge {
+            min-width: 70px;
+        }
+
+        .history-table col.col-ordered {
+            width: 18%;
+        }
+
+        .history-table col.col-pickup {
+            width: 18%;
+        }
+
+        .history-table col.col-service {
+            width: 14%;
+        }
+
+        .history-table col.col-load {
+            width: 10%;
+        }
+
+        .history-table col.col-total {
+            width: 12%;
+        }
+
+        .history-table col.col-payment {
+            width: 10%;
+        }
+
+        .history-table col.col-status {
+            width: 10%;
+        }
+
+        .history-table col.col-receipt {
+            width: 8%;
+        }
+
+        .history-table td:nth-child(5) {
+            font-weight: 700;
+            color: var(--navy);
+        }
+    </style>
 </head>
 
 <body>
-    <div class="d-flex">
-        {{-- Sidebar --}}
-        <div id="side-bar" class="d-flex flex-column flex-shrink-0 p-3" style="width: 280px; height: 100vh;">
-            
-            {{-- Top-right toggle above the logo --}}
+    <div class="mobile-topbar d-lg-none">
+        <button type="button" id="mobileSidebarToggle" class="btn mobile-toggle-btn" aria-label="Open menu">
+            <i class="bi bi-list"></i>
+        </button>
+        <div class="mobile-brand">
+            <img src="{{ asset('images/E&B_Logo.png') }}" alt="Logo">
+            <span>E&amp;B Laundry Hub</span>
+        </div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="app-shell">
+        <aside id="side-bar" class="d-flex flex-column shrink-0 p-3">
             <div class="d-flex justify-content-end mb-2">
                 <button type="button" id="sidebarToggle" class="btn btn-sm sidebar-toggle-btn" title="Collapse sidebar">
                     <i class="bi bi-list"></i>
@@ -31,6 +112,7 @@
                     <img src="{{ asset('images/E&B_Logo.png') }}" alt="Logo">
                 </a>
             </div>
+
             <hr>
 
             @php
@@ -39,33 +121,27 @@
 
             <ul class="nav nav-pills flex-column mb-auto">
                 <li>
-                    <a href="{{ route('user.dashboard') }}" 
-                       class="nav-link {{ $is('user.dashboard') }}" 
-                       id="nav-dashboard">
+                    <a href="{{ route('user.dashboard') }}" class="nav-link {{ $is('user.dashboard') }}">
                         <i class="bi bi-speedometer2 me-2"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('loyalty.membership') }}" 
-                       class="nav-link {{ $is('loyalty.membership', 'loyalty_membemship') }}" 
-                       id="nav-customers">
+                    <a href="{{ route('loyalty.membership') }}"
+                        class="nav-link {{ $is('loyalty.membership', 'loyalty_membemship') }}">
                         <i class="bi bi-award me-2"></i>
                         <span>Loyalty Membership</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('user.orders.history') }}" 
-                       class="nav-link {{ $is('user.orders.history', 'user.orderHistory') }}" 
-                       id="nav-services">
+                    <a href="{{ route('user.orders.history') }}"
+                        class="nav-link {{ $is('user.orders.history', 'user.orderHistory') }}">
                         <i class="bi bi-clock-history me-2"></i>
                         <span>Order History</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('user.feedback') }}" 
-                       class="nav-link {{ $is('user.feedback') }}" 
-                       id="nav-feedback">
+                    <a href="{{ route('user.feedback') }}" class="nav-link {{ $is('user.feedback') }}">
                         <i class="bi bi-chat-dots me-2"></i>
                         <span>Feedback</span>
                     </a>
@@ -73,6 +149,7 @@
             </ul>
 
             <hr>
+
             <div class="dropdown text-end">
                 <button id="btn-admin" class="btn dropdown-toggle d-flex align-items-center" type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -93,9 +170,6 @@
                         </a>
                     </li>
                     <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li>
                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
                             @csrf
                             <button type="submit" id="btn-logout" class="dropdown-item fw-bold">
@@ -106,58 +180,78 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </aside>
 
-        {{-- Main content --}}
-        <div class="p-4" style="flex-grow: 1; background-color: #ffffff; height: 100vh; overflow-y: auto;">
+        <main class="main-content p-4 history-wrap">
             <h1 class="page-title">Order History</h1>
             <hr>
 
-            <div class="container">
+            <div class="container-fluid">
                 <div class="card">
-                    <div class="card-header d-flex align-items-center justify-content-between" id="card-header">
-                        <div class="d-flex align-items-center">
-                            <h2 style="margin: 0; color: #173F7B; font-weight: 800; font-size: 1.75rem;">
-                                Completed Orders
-                            </h2>
+                    <div class="card-header" id="card-header">
+                        <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <h2 class="mb-0">Completed Orders</h2>
+                                    <span class="orders-count">
+                                        {{ $orders->count() }} order{{ $orders->count() !== 1 ? 's' : '' }}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="card-body">
                         @if (session('success'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius: 12px; border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background-color: #d4edda; color: #155724;">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert"
+                                style="border-radius: 14px; border: none; box-shadow: 0 10px 26px rgba(25,135,84,.12);">
                                 <i class="bi bi-check-circle-fill me-2"></i>
                                 {{ session('success') }}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @endif
+
                         @if (session('fail'))
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius: 12px; border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background-color: #f8d7da; color: #721c24;">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                                style="border-radius: 14px; border: none; box-shadow: 0 10px 26px rgba(220,53,69,.12);">
                                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
                                 {{ session('fail') }}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @endif
 
-                        <div class="table-responsive">
-                            <table class="table table-sm table-borderless align-middle admin-orders-table">
+                        <div class="recent-orders-table-scroll">
+                            <table class="table table-sm align-middle admin-orders-table history-table">
+                                <colgroup>
+                                    <col class="col-ordered">
+                                    <col class="col-pickup">
+                                    <col class="col-service">
+                                    <col class="col-load">
+                                    <col class="col-total">
+                                    <col class="col-payment">
+                                    <col class="col-status">
+                                    <col class="col-receipt">
+                                </colgroup>
                                 <thead>
                                     <tr>
-                                        <th>Date & Time Ordered</th>
-                                        <th>Pickup Date & Time</th>
+                                        <th>Date &amp; Time Ordered</th>
+                                        <th>Pickup Date &amp; Time</th>
                                         <th>Service</th>
-                                        <th class="text-center">Load Qty.</th>
-                                        <th class="text-center">Total</th>
-                                        <th class="text-center">Payment</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Receipt</th>
+                                        <th>Load Qty.</th>
+                                        <th>Total</th>
+                                        <th>Payment</th>
+                                        <th>Status</th>
+                                        <th>Receipt</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse ($orders as $order)
-                                        <tr style="transition: background-color 0.2s ease;">
-                                            <!-- Date & Time Ordered - LEFT ALIGNED -->
-                                            <td style="text-align: left;">
+                                        @php
+                                            $displayTotal = ($order->total ?? 0) > 0 ? $order->total : ($order->total_amount ?? 0);
+                                        @endphp
+
+                                        <tr>
+                                            <td>
                                                 <div>
                                                     <strong>{{ $order->created_at->timezone(config('app.timezone'))->format('M d, Y') }}</strong>
                                                 </div>
@@ -165,35 +259,41 @@
                                                     {{ $order->created_at->timezone(config('app.timezone'))->format('h:i A') }}
                                                 </div>
                                             </td>
-                                            <!-- Pickup Date & Time - LEFT ALIGNED -->
-                                            <td style="text-align: left;">
+
+                                            <td>
                                                 <div>
-                                                    <strong>{{ \Carbon\Carbon::parse($order->pickup_date)->format('M d, Y') }}</strong>
+                                                    <strong>
+                                                        {{ $order->pickup_date ? \Carbon\Carbon::parse($order->pickup_date)->format('M d, Y') : '—' }}
+                                                    </strong>
                                                 </div>
-                                                <div class="text-muted small">{{ $order->pickup_time }}</div>
+                                                <div class="text-muted small">{{ $order->pickup_time ?: '—' }}</div>
                                             </td>
+
                                             <td>{{ $order->service_type ?? '—' }}</td>
-                                            <td class="text-center">{{ $order->load_qty ?? 0 }}</td>
-                                            <td class="text-center">₱ {{ number_format($order->total ?? 0, 0) }}</td>
-                                            <td class="text-center">
-                                                <span class="badge bg-success" style="min-width: 60px; padding: 0.35rem 0.65rem; font-weight: 600;">
-                                                    Paid
-                                                </span>
+
+                                            <td>{{ $order->load_qty ?? 0 }}</td>
+
+                                            <td>₱ {{ number_format($displayTotal, 2) }}</td>
+
+                                            <td>
+                                                <span class="badge bg-success history-paid-badge">Paid</span>
                                             </td>
-                                            <td class="text-center">
-                                                <span class="badge bg-success" style="min-width: 80px; padding: 0.35rem 0.65rem; font-weight: 600;">
-                                                    Completed
-                                                </span>
+
+                                            <td>
+                                                <span class="badge bg-success history-status-badge">Completed</span>
                                             </td>
-                                            <td class="text-center">
-                                                <a href="{{ route('orders.show', $order) }}" class="link-primary" style="text-decoration: none;">
+
+                                            <td>
+                                                <a href="{{ route('orders.show', $order) }}" class="history-receipt-link">
                                                     Details
                                                 </a>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="8" class="text-center text-muted">No completed orders yet.</td>
+                                            <td colspan="8" class="text-center history-empty">
+                                                No completed orders yet.
+                                            </td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -202,56 +302,60 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Sidebar Toggle Script -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const btn = document.getElementById('sidebarToggle');
             if (!btn) return;
 
             const body = document.body;
             const KEY = 'eb_user_sidebar_collapsed';
 
-            // Restore last state
             try {
                 if (localStorage.getItem(KEY) === '1') {
                     body.classList.add('sidebar-collapsed');
                 }
             } catch (e) {}
 
-            btn.addEventListener('click', function(e) {
+            btn.addEventListener('click', function (e) {
                 e.preventDefault();
                 body.classList.toggle('sidebar-collapsed');
 
                 try {
-                    localStorage.setItem(
-                        KEY,
-                        body.classList.contains('sidebar-collapsed') ? '1' : '0'
-                    );
+                    localStorage.setItem(KEY, body.classList.contains('sidebar-collapsed') ? '1' : '0');
                 } catch (e) {}
-            });
-        });
-
-        // Add hover effect to table rows
-        document.addEventListener('DOMContentLoaded', function() {
-            const rows = document.querySelectorAll('.admin-orders-table tbody tr');
-            rows.forEach(row => {
-                row.addEventListener('mouseenter', function() {
-                    if (this.children.length > 1) {
-                        this.style.backgroundColor = '#f8f9fa';
-                    }
-                });
-                row.addEventListener('mouseleave', function() {
-                    this.style.backgroundColor = '';
-                });
             });
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileBtn = document.getElementById('mobileSidebarToggle');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (mobileBtn) {
+                mobileBtn.addEventListener('click', function () {
+                    document.body.classList.add('sidebar-mobile-open');
+                });
+            }
+
+            if (overlay) {
+                overlay.addEventListener('click', function () {
+                    document.body.classList.remove('sidebar-mobile-open');
+                });
+            }
+
+            document.querySelectorAll('#side-bar .nav-link, #side-bar .dropdown-item').forEach(el => {
+                el.addEventListener('click', function () {
+                    document.body.classList.remove('sidebar-mobile-open');
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
