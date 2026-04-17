@@ -1,0 +1,104 @@
+:root{
+      --bg:#FFB5FE;
+      --card:#FFE5FF;
+      --ink:#173F7B;
+      --muted:#6c6c6c;
+      --accent:#F4A3FF;
+      --white:#fff;
+      --border:#e7c8f1;
+      --radius-lg:22px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0; padding:32px 0;
+      background:var(--bg);
+      font-family:"Poppins",sans-serif;
+      color:#222;
+    }
+    .container{ max-width:760px; margin:0 auto; padding:0 18px; }
+    .card{
+      background:var(--card);
+      border-radius:var(--radius-lg);
+      box-shadow:0 6px 24px rgba(0,0,0,.06);
+      overflow:hidden;
+    }
+    .card-header{ padding:22px 24px; border-bottom:1px solid var(--border); }
+    .card-header h1{ margin:0; color:var(--ink); font-weight:700; font-size:30px; }
+    .card-body{ padding:26px 24px; }
+
+    .grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+    @media (max-width:720px){ .grid{ grid-template-columns:1fr; } }
+
+    .field{ display:flex; flex-direction:column; gap:10px; }
+    .field label{
+      font-weight:600;
+      color:var(--ink);
+      font-size:16px; /* bigger */
+    }
+    .hint{ color:var(--muted); font-weight:500; font-size:13px; }
+
+    input[type="text"], input[type="number"], input[type="date"], select, textarea{
+      width:100%; padding:12px 14px;
+      border:1px solid var(--border); border-radius:12px;
+      background:var(--white); font:inherit; outline:none;
+    }
+    textarea{ min-height:110px; resize:vertical; }
+
+    /* Tiny lists */
+    .tiny-list{
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:var(--white);
+      padding:10px 12px;
+      display:flex; flex-direction:column; gap:8px;
+      max-height:220px; overflow:auto;
+    }
+    .tiny-row{
+      display:flex; align-items:center; gap:12px;
+    }
+    .tiny-row .qty{
+      width:72px; min-width:72px;
+      padding:10px 10px; text-align:right;
+      border:1px solid var(--border); border-radius:10px;
+      background:var(--white); font:inherit;
+    }
+    .tiny-row .desc{
+      flex:1; display:flex; justify-content:space-between; align-items:center; gap:8px;
+      font-weight:500; color:#333; font-size:14px; /* smaller labels */
+    }
+    .price{ white-space:nowrap; font-weight:700; }
+
+    .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    @media (max-width:720px){ .grid-2{ grid-template-columns:1fr; } }
+
+    .notice{ margin-top:10px; padding:12px 14px; border-radius:12px; background:rgba(255,255,255,.6); }
+    .notice p{ margin:0 0 6px; color:#ff4d61; font-weight:700; }
+    .notice ul{ margin:0; padding-left:18px; }
+    .notice li{ margin:6px 0; }
+
+    .actions{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:22px; }
+    .btn{ appearance:none; border:0; padding:12px 28px; border-radius:999px; font-weight:700; cursor:pointer; }
+    .btn-back{ background:#fff; border:1px solid var(--border); color:var(--ink); }
+    .btn-primary{ background:var(--accent); color:var(--ink); }
+
+    .inline-help{ display:grid; grid-template-columns:1fr auto; align-items:center; gap:12px; }
+    .pill{ background:#f8c8ff; color:#6b2d7d; font-weight:700; padding:10px 14px; border-radius:999px; white-space:nowrap; font-size:14px; }
+
+    /* Extra spacing for certain fields */
+.field textarea,
+.field input[readonly],
+.field select {
+  margin-bottom: 20px; /* adds space under these boxes */
+}
+
+.tiny-row .qty{
+  width:58px; min-width:58px;
+  text-align:center;              /* center like your screenshot */
+  font-weight:700;
+  border-radius:12px;
+}
+
+.tiny-list .price{
+  font-weight:800;
+  color:#173F7B;
+}

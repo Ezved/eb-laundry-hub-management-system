@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #FFB5FE;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background-color: #FFE5FF;
+    height: 750px;
+    width: 700px;
+}
+
+.card-header > h2 {
+    font-weight: bold;
+    color: #173F7B;
+}
+
+.choice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#save-btn {
+    font-weight: bold;
+    background-color: #43a740;
+    color: white;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#save-btn:hover {
+    background-color: #307a2e;
+    color: white;
+}
+
+#cancel-btn {
+    font-weight: bold;
+    color: white;
+    background-color: #fa4f4f;
+}
+
+#cancel-btn:hover {
+    background-color: #c42d2d;
+    color: white;
+}

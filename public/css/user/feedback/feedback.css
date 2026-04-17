@@ -1,0 +1,103 @@
+/* =============================
+   E&B Laundry — User Feedback
+   Clean styles (no "My Recent Feedback" section)
+============================= */
+
+:root{
+  --blue: #173F7B;
+  --pink: #FFE5FF;
+  --pink-2: #FFB5FE;
+  --text: #212529;
+  --border: #dee2e6;
+  --star: #f5b301;
+  --shadow: 0 4px 12px rgba(0,0,0,.06);
+}
+
+/* Base */
+*{margin:0;padding:0;font-family:"Poppins",sans-serif;}
+body{background:#fff;color:var(--text);}
+.page-title{color:var(--blue);font-weight:700;font-size:2.25rem;}
+
+/* Sidebar */
+.d-flex,#side-bar{background:var(--pink);}
+.logo-wrapper{display:flex;justify-content:center;align-items:center;margin-top:7px;text-align:center;}
+.logo-wrapper img{max-width:75%;height:auto;display:block;margin:0 auto;}
+.nav-link{color:var(--blue);font-weight:700;background:var(--pink);}
+.nav-pills .nav-link.active{color:var(--pink);background:var(--blue);}
+.nav-pills .nav-link:hover{color:var(--blue);background:var(--pink-2);}
+#btn-admin{background:var(--pink-2);color:var(--blue);}
+#btn-admin:hover{background:var(--blue);color:#fff;}
+#admin-settings{color:var(--blue);} #admin-settings:hover{color:#4c6ea0;}
+#btn-logout{color:#f00;} #btn-logout:hover{color:#c42d2d;}
+
+/* Card */
+.card{
+  background:#FFB5FE !important;
+  border:1px solid var(--border);
+  border-radius:12px;
+  margin-top:32px;
+  box-shadow:var(--shadow);
+}
+.card-header{
+  background:#FFE5FF;
+  border-bottom:2px solid var(--pink-2);
+}
+.card-header h2{color:var(--blue);font-size:1.75rem;font-weight:800;}
+
+/* Star rating */
+.star-input{direction:rtl;display:inline-flex;gap:6px;}
+.star-input input{display:none;}
+.star-input label{font-size:36px;line-height:1;cursor:pointer;color:#bbb;}
+.star-input input:checked ~ label,
+.star-input label:hover,
+.star-input label:hover ~ label{color:var(--star);}
+
+/* Tighter + narrower card */
+.card{
+  /* keep your colors */
+  background:#FFB5FE !important;
+  border:1px solid var(--border);
+  border-radius:12px;
+  box-shadow:var(--shadow);
+
+  /* make it smaller */
+  max-width: 720px;   /* <- adjust this to taste (e.g., 640px / 680px) */
+  width: 100%;
+  margin: 20px auto;  /* center + smaller top/bottom margin */
+}
+
+/* Trim header/body padding to reduce visual height */
+.card-header{ 
+  background:#FFE5FF;
+  border-bottom:2px solid var(--pink-2);
+  padding: 12px 16px; /* was larger by default */
+}
+
+.card-body{
+  padding: 16px;      /* tighter body spacing */
+}
+
+/* Optional: keep the textarea compact */
+textarea.form-control{
+  min-height: 120px;  /* reduce if needed */
+}
+
+/* Tiles inside "My Recent Feedback" */
+.myfb-item{
+  background:#FFE5FF;
+  box-shadow: var(--shadow);
+  border-radius:12px;
+  padding:16px;
+}
+
+/* gold stars + spacing */
+.myfb-stars{ color: var(--star); letter-spacing: 2px; }
+
+/* white message bubble */
+.myfb-msg{
+  background:#fff;
+  border-radius:5px;
+  padding: 5px;
+  color: var(--text);
+  white-space: pre-wrap;
+}

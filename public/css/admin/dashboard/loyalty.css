@@ -1,0 +1,2831 @@
+/* ============================================================
+   E&B Laundry Hub - Admin Dashboard
+   Clean responsive redesign
+   ============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --pink: #ff6ef7;
+    --pink-light: #ffe0fe;
+    --pink-soft: #fff5ff;
+    --navy: #173F7B;
+    --navy-dark: #0d2a52;
+    --white: #ffffff;
+    --gray-bg: #f7f4fc;
+    --gray-line: #e8eaf3;
+    --muted: #5a5a7a;
+    --sidebar-width: 280px;
+    --sidebar-collapsed: 82px;
+    --radius-sm: 12px;
+    --radius-md: 18px;
+    --radius-lg: 26px;
+    --radius-pill: 999px;
+    --font-head: 'Inter', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --shadow-soft: 0 16px 40px rgba(13, 42, 82, 0.10);
+    --shadow-card: 0 20px 60px rgba(13, 42, 82, 0.08);
+    --transition: 0.22s cubic-bezier(.4,0,.2,1);
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    font-family: var(--font-body);
+    background:
+        radial-gradient(circle at top right, rgba(255,110,247,.10), transparent 22%),
+        linear-gradient(180deg, #fafbff 0%, #f6f7fc 100%);
+    color: var(--navy);
+    overflow-x: hidden;
+}
+
+/* ================= APP SHELL ================= */
+
+.app-shell {
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+}
+
+.mobile-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1040;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,.94);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(23,63,123,.08);
+    padding: 14px 16px;
+}
+
+.mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.mobile-brand img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.mobile-brand span {
+    font-family: var(--font-head);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.2;
+}
+
+.mobile-toggle-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    border: none;
+    background: var(--navy);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mobile-toggle-btn:hover {
+    background: var(--pink);
+    color: #fff;
+}
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 42, 82, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition), visibility var(--transition);
+    z-index: 1045;
+}
+
+/* ================= SIDEBAR ================= */
+
+#side-bar {
+    width: var(--sidebar-width);
+    flex: 0 0 var(--sidebar-width);
+    min-height: 100vh;
+    position: sticky;
+    top: 0;
+    background:
+        radial-gradient(circle at top right, rgba(255,110,247,.18), transparent 28%),
+        linear-gradient(180deg, #173F7B 0%, #0d2a52 100%);
+    color: #fff;
+    border-right: 1px solid rgba(255,255,255,.08);
+    transition: width var(--transition), flex-basis var(--transition), transform var(--transition), padding var(--transition);
+    z-index: 1050;
+    overflow: hidden;
+}
+
+.logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 6px;
+    margin-bottom: 8px;
+}
+
+.logo-wrapper a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-wrapper img {
+    width: 116px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: width var(--transition);
+}
+
+#side-bar hr {
+    border-color: rgba(255,255,255,.12);
+    opacity: 1;
+    margin: 1rem 0;
+}
+
+.sidebar-toggle-btn {
+    border: 1px solid rgba(255,255,255,.16);
+    color: #fff;
+    background: rgba(255,255,255,.10);
+    padding: 6px 10px;
+    border-radius: 12px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-toggle-btn:hover,
+.sidebar-toggle-btn:focus {
+    background: var(--pink);
+    color: #fff;
+}
+
+#side-bar .nav {
+    gap: 6px;
+}
+
+#side-bar .nav-link {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .85rem 1rem;
+    border-radius: 14px;
+    color: rgba(255,255,255,.82);
+    font-weight: 600;
+    transition: background var(--transition), color var(--transition), transform var(--transition);
+}
+
+#side-bar .nav-link i {
+    font-size: 1.1rem;
+    min-width: 18px;
+    text-align: center;
+}
+
+#side-bar .nav-link:hover {
+    background: rgba(255,255,255,.10);
+    color: #fff;
+    transform: translateX(2px);
+}
+
+.nav-pills .nav-link.active {
+    color: #fff;
+    background: var(--pink);
+    box-shadow: 0 10px 24px rgba(255,110,247,.22);
+}
+
+#side-bar .dropdown {
+    width: 100%;
+}
+
+#btn-admin {
+    width: 100%;
+    justify-content: center;
+    padding: .8rem 1rem;
+    border-radius: var(--radius-pill);
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.10);
+    transition: background var(--transition), color var(--transition);
+}
+
+#btn-admin:hover {
+    background: var(--pink);
+    color: #fff;
+}
+
+#btn-admin svg {
+    width: 22px;
+    height: 22px;
+}
+
+.dropdown-menu {
+    border: none;
+    border-radius: 16px;
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+}
+
+#admin-settings {
+    color: var(--navy);
+}
+
+#admin-settings:hover {
+    color: #4c6ea0;
+}
+
+#btn-logout {
+    color: #d93025;
+}
+
+#btn-logout:hover {
+    color: #b3261e;
+}
+
+/* Desktop collapsed sidebar */
+body.sidebar-collapsed #side-bar {
+    width: var(--sidebar-collapsed);
+    flex-basis: var(--sidebar-collapsed);
+    padding-left: .6rem !important;
+    padding-right: .6rem !important;
+}
+
+body.sidebar-collapsed #side-bar .logo-wrapper img {
+    width: 52px;
+}
+
+body.sidebar-collapsed #side-bar .nav-link {
+    justify-content: center;
+    padding-left: .7rem;
+    padding-right: .7rem;
+}
+
+body.sidebar-collapsed #side-bar .nav-link span,
+body.sidebar-collapsed #side-bar #btn-admin span {
+    display: none;
+}
+
+body.sidebar-collapsed #side-bar #btn-admin svg {
+    margin-right: 0 !important;
+}
+
+body.sidebar-collapsed #side-bar .dropdown.text-end {
+    text-align: center !important;
+}
+
+body.sidebar-collapsed #side-bar hr {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ================= MAIN ================= */
+
+.main-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 100vh;
+    background: transparent;
+}
+
+.page-title {
+    font-family: var(--font-head);
+    color: var(--navy);
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    margin-bottom: 8px;
+}
+
+.main-content > hr {
+    border-color: rgba(23,63,123,.08);
+    opacity: 1;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+/* ================= MAIN CARDS ================= */
+
+.card,
+.delivery-calendar-card,
+.sales-report-card {
+    background: rgba(255,255,255,.94);
+    border: 1px solid rgba(23,63,123,.06);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+.card {
+    margin-top: 20px;
+}
+
+#card-header {
+    padding: 20px 22px 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(249,249,255,.96));
+    border-bottom: 1px solid rgba(23,63,123,.06);
+}
+
+#card-header h2,
+.cal-heading {
+    font-family: var(--font-head);
+    color: var(--navy);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.orders-count {
+    color: var(--muted) !important;
+}
+
+/* Walk-in button */
+.btn-walkin {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.btn-walkin a,
+#btn-booking {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 10px 18px;
+    background: var(--pink);
+    color: #fff !important;
+    border-radius: var(--radius-pill);
+    font-weight: 700;
+    border: none;
+    box-shadow: 0 10px 26px rgba(255,110,247,.22);
+    text-decoration: none;
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.btn-walkin a:hover,
+#btn-booking:hover {
+    background: #f954ea;
+    color: #fff !important;
+    transform: translateY(-1px);
+}
+
+.btn-walkin a.disabled,
+#btn-booking.disabled {
+    background: #d3d6e2;
+    color: #6f778d !important;
+    box-shadow: none;
+}
+
+#order-quick-tabs {
+    margin-top: 10px !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#order-quick-tabs .btn {
+    background: #fff !important;
+    color: var(--navy) !important;
+    border: 1px solid rgba(23,63,123,.10) !important;
+    border-radius: var(--radius-pill) !important;
+    font-weight: 700;
+    text-decoration: none !important;
+    white-space: nowrap;
+    box-shadow: none;
+}
+
+#order-quick-tabs .btn:hover {
+    background: var(--pink-light) !important;
+}
+
+#order-quick-tabs .btn.active {
+    background: var(--navy) !important;
+    color: #fff !important;
+    border-color: var(--navy) !important;
+}
+
+/* ================= FLASH / TOAST ================= */
+
+.toast {
+    border: none;
+    border-radius: 16px;
+    box-shadow: var(--shadow-soft);
+}
+
+/* ================= ORDERS TABLE ================= */
+
+.card-body {
+    padding: 20px;
+}
+
+.recent-orders-table-scroll {
+    max-height: 560px;
+    overflow: auto;
+    border-radius: 18px;
+    border: 1px solid rgba(23,63,123,.08);
+    background: #fff;
+    -webkit-overflow-scrolling: touch;
+}
+
+.admin-orders-table {
+    margin-bottom: 0;
+    min-width: 1280px;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.admin-orders-table,
+.admin-orders-table * {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.admin-orders-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--navy) !important;
+    color: #fff !important;
+    vertical-align: middle !important;
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 14px 12px;
+    white-space: nowrap;
+    text-align: center !important;
+}
+
+.admin-orders-table thead th:first-child,
+.admin-orders-table thead th:nth-child(2),
+.admin-orders-table thead th:nth-child(3) {
+    text-align: left !important;
+}
+
+.admin-orders-table tbody tr {
+    transition: background var(--transition);
+}
+
+.admin-orders-table tbody tr:nth-child(even) {
+    background: #fcfcff;
+}
+
+.admin-orders-table tbody tr:hover {
+    background: #f8f4ff;
+}
+
+.admin-orders-table td {
+    padding: 14px 12px;
+    border-top: 1px solid var(--gray-line) !important;
+    vertical-align: middle;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.admin-orders-table tbody td:nth-child(1),
+.admin-orders-table tbody td:nth-child(2),
+.admin-orders-table tbody td:nth-child(3) {
+    text-align: left;
+}
+
+.admin-orders-table tbody td:nth-child(4),
+.admin-orders-table tbody td:nth-child(5),
+.admin-orders-table tbody td:nth-child(6),
+.admin-orders-table tbody td:nth-child(7),
+.admin-orders-table tbody td:nth-child(8),
+.admin-orders-table tbody td:nth-child(9),
+.admin-orders-table tbody td:nth-child(10) {
+    text-align: center;
+}
+
+.admin-orders-table .btn,
+.admin-orders-table .btn-outline-primary,
+.admin-orders-table .btn-outline-secondary {
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.admin-orders-table .btn-outline-primary {
+    border-color: rgba(23,63,123,.18);
+    color: var(--navy);
+}
+
+.admin-orders-table .btn-outline-primary:hover {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+}
+
+.admin-orders-table .link-primary {
+    color: var(--navy) !important;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.admin-orders-table .link-primary:hover {
+    color: var(--pink) !important;
+    text-decoration: underline;
+}
+
+.admin-orders-table tbody td a.btn {
+    min-width: 74px;
+}
+
+.admin-orders-table tbody td:nth-child(7) form.d-flex,
+.admin-orders-table tbody td:nth-child(8) form.d-flex {
+    justify-content: center !important;
+    width: 100%;
+}
+
+.table-success {
+    background: #ecf8ef !important;
+}
+
+.table-danger {
+    background: #fff2f2 !important;
+}
+
+/* Selects */
+.undo-select {
+    appearance: auto !important;
+    -webkit-appearance: menulist !important;
+    -moz-appearance: menulist !important;
+    width: 138px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: 1px solid #d7dbe8 !important;
+    background: #fff !important;
+    color: #333 !important;
+    margin: 0 auto;
+    display: inline-block;
+    font-size: .9rem;
+    line-height: 1.25;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.undo-select:hover,
+.undo-select:focus {
+    border-color: var(--navy) !important;
+}
+
+select.js-colored-select,
+select.js-colored-select option {
+    color: inherit !important;
+}
+
+/* ================= CALENDAR + SALES SECTION ================= */
+
+.dashboard-split {
+    margin-top: 24px;
+    --bs-gutter-x: 1rem;
+    --bs-gutter-y: 1rem;
+}
+
+.calendar-head {
+    padding: 16px 18px 0;
+    background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(249,249,255,.96));
+    color: var(--navy);
+}
+
+.calendar-sep {
+    border: 0;
+    border-top: 1px solid rgba(23,63,123,.08);
+    margin: 14px 0 0;
+}
+
+.calendar-nav {
+    padding: 14px 0;
+}
+
+#cal-prev,
+#cal-next,
+.range-like-nav .btn,
+.mini-nav {
+    background: var(--navy) !important;
+    color: #fff !important;
+    border: none !important;
+    font-weight: 700;
+    border-radius: 10px !important;
+    transition: all .2s ease;
+}
+
+#cal-prev:hover,
+#cal-next:hover,
+.range-like-nav .btn:hover,
+.mini-nav:hover {
+    background: var(--navy-dark) !important;
+    transform: translateY(-1px);
+    color: #fff !important;
+}
+
+.calendar-panel {
+    background: transparent;
+    padding: 0 0 12px;
+}
+
+.legend {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.legend-pickup {
+    background: #dc3545 !important;
+}
+
+.legend-delivery {
+    background: #28a745 !important;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    padding: 0 12px 12px;
+}
+
+.calendar-grid .cell.header {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+    padding: 8px 0;
+    border-radius: 10px;
+}
+
+.calendar-grid .cell {
+    position: relative;
+    background: #fff;
+    border: 1px solid rgba(23,63,123,.06);
+    border-radius: 10px;
+    min-height: 86px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.calendar-grid .cell.day:hover {
+    background: #f8fbff;
+}
+
+.calendar-grid .day .day-num {
+    position: absolute;
+    right: 8px;
+    top: 6px;
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 14px;
+}
+
+.calendar-grid .day .badges {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.badge-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex: 0 0 auto;
+}
+
+.badge-dot.is-pickup {
+    background: #dc3545 !important;
+}
+
+.badge-dot.is-delivery {
+    background: #28a745 !important;
+}
+
+.calendar-grid .cell.day * {
+    pointer-events: none;
+}
+
+.calendar-grid .cell.day {
+    pointer-events: auto;
+}
+
+/* Sales cards */
+.sales-report-card .calendar-panel {
+    padding: 10px 14px 14px;
+}
+
+.card.border-rose {
+    border: 1px solid rgba(255,110,247,.18) !important;
+    border-radius: 18px;
+    box-shadow: none;
+    margin-top: 0 !important;
+    margin-bottom: .75rem !important;
+}
+
+.sales-report-card .row.g-3 {
+    --bs-gutter-y: .75rem;
+    --bs-gutter-x: .75rem;
+}
+
+.table-eb th {
+    background: var(--navy);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.eb-stat-table th:last-child,
+.eb-stat-table td:last-child {
+    text-align: left !important;
+}
+
+#tbl-by-service td:nth-child(2),
+#tbl-by-payment td:nth-child(2) {
+    text-align: center;
+}
+
+#tbl-by-service td:nth-child(3),
+#tbl-by-payment td:nth-child(3) {
+    text-align: left;
+    padding-left: 1.25rem;
+}
+
+/* Weekly mini graph */
+.eb-weekly-card {
+    border: 1px solid rgba(255,110,247,.18);
+}
+
+#weekly-trend-card .eb-weekly-fill {
+    background: var(--navy) !important;
+}
+
+#weekly-trend-card .eb-weekly-bar.is-high .eb-weekly-fill {
+    box-shadow: 0 0 0 2px rgba(23, 63, 123, .35) inset !important;
+}
+
+#weekly-trend-card .eb-weekly-bar {
+    border-color: #e5e7eb !important;
+}
+
+/* Pickers */
+#sales-range {
+    position: relative;
+    gap: 0;
+    border-radius: 10px;
+}
+
+#sales-range .btn.sales-range-btn {
+    border-radius: 0 !important;
+}
+
+#sales-range .btn.sales-range-btn:first-of-type {
+    border-top-left-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+}
+
+#sales-range .btn.sales-range-btn:last-of-type {
+    border-top-right-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+
+#sales-range .btn.active,
+#sales-range .btn[aria-pressed="true"] {
+    background: var(--navy-dark) !important;
+    box-shadow: 0 0 0 2px rgba(23, 63, 123, .25) inset;
+}
+
+.mini-popover {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    background: #fff;
+    border: 1px solid rgba(23,63,123,.08);
+    border-radius: 14px;
+    padding: 10px;
+    z-index: 1080;
+    min-width: 260px;
+    box-shadow: var(--shadow-soft);
+}
+
+.mini-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(23,63,123,.08);
+    padding: 6px 4px 8px;
+    margin-bottom: 8px;
+}
+
+.mini-cal {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    padding: 4px;
+}
+
+.mini-cal .dow {
+    text-align: center;
+    font-size: .8rem;
+    color: var(--navy);
+    font-weight: 700;
+}
+
+.mini-cal .d {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 6px 0;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: .15s ease;
+}
+
+.mini-cal .d:hover {
+    background: #f7fbff;
+    border-color: rgba(23,63,123,.2);
+}
+
+.mini-cal .d.selected {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+}
+
+.months-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 4px;
+}
+
+.months-grid .m {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 8px 0;
+    text-align: center;
+    cursor: pointer;
+    transition: .15s ease;
+    font-weight: 700;
+}
+
+.months-grid .m:hover {
+    background: #f7fbff;
+    border-color: rgba(23,63,123,.2);
+}
+
+.months-grid .m.selected {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+}
+
+/* Modal buttons */
+.btn-eb {
+    background: var(--navy) !important;
+    color: #fff !important;
+    border-color: var(--navy) !important;
+}
+
+.btn-eb:hover {
+    background: var(--navy-dark) !important;
+}
+
+#dayEventsModal .day-item .btn:hover:not(:disabled),
+#dayEventsModal .day-item .btn:focus-visible {
+    background: var(--navy-dark) !important;
+    border-color: var(--navy-dark) !important;
+    color: #fff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .15);
+}
+
+/* Receipt modal */
+.receipt-finalize .form-control,
+.receipt-finalize .form-select,
+.receipt-finalize textarea {
+    background: #fff !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    padding: .55rem .8rem;
+}
+
+.receipt-finalize .form-check-input {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ced4da !important;
+    border-radius: 4px;
+    margin: 0;
+}
+
+.receipt-over8-row .form-check {
+    padding-left: 0;
+}
+
+.receipt-over8-row .form-check-input {
+    margin-left: 0;
+}
+
+.receipt-service-select {
+    position: relative;
+}
+
+.receipt-service-select select.form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (min-width: 992px) {
+    .mobile-topbar,
+    .sidebar-overlay {
+        display: none !important;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .main-content {
+        padding: 24px !important;
+    }
+
+    .page-title {
+        font-size: 29px;
+    }
+
+    .admin-orders-table {
+        min-width: 1180px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .app-shell {
+        display: block;
+        min-height: auto;
+    }
+
+    #side-bar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: min(82vw, 300px);
+        flex: none;
+        min-height: 100vh;
+        transform: translateX(-100%);
+        box-shadow: 0 20px 60px rgba(0,0,0,.18);
+    }
+
+    body.sidebar-collapsed #side-bar {
+        width: min(82vw, 300px);
+        flex-basis: auto;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    body.sidebar-collapsed #side-bar .nav-link span,
+    body.sidebar-collapsed #side-bar #btn-admin span {
+        display: inline;
+    }
+
+    body.sidebar-collapsed #side-bar .nav-link {
+        justify-content: flex-start;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    body.sidebar-collapsed #side-bar .logo-wrapper img {
+        width: 116px;
+    }
+
+    body.sidebar-collapsed #side-bar #btn-admin svg {
+        margin-right: .5rem !important;
+    }
+
+    body.sidebar-mobile-open #side-bar {
+        transform: translateX(0);
+    }
+
+    body.sidebar-mobile-open .sidebar-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .main-content {
+        min-height: auto;
+        padding: 18px !important;
+    }
+
+    .page-title {
+        font-size: 26px;
+    }
+
+    #card-header {
+        padding: 18px;
+    }
+
+    .btn-walkin {
+        width: 100%;
+        align-items: stretch;
+        margin-top: 10px;
+    }
+
+    .btn-walkin a,
+    #btn-booking {
+        width: 100%;
+    }
+
+    #order-quick-tabs {
+        width: 100%;
+    }
+
+    .dashboard-split {
+        margin-top: 18px;
+    }
+
+    .calendar-grid {
+        min-width: 640px;
+    }
+
+    .recent-orders-table-scroll {
+        max-height: none;
+    }
+
+    .admin-orders-table {
+        min-width: 1120px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .mobile-topbar {
+        padding: 12px 14px;
+    }
+
+    .mobile-brand span {
+        font-size: 15px;
+    }
+
+    .main-content {
+        padding: 14px !important;
+    }
+
+    .page-title {
+        font-size: 23px;
+    }
+
+    #card-header {
+        padding: 16px;
+    }
+
+    #card-header .d-flex.align-items-center.justify-content-between.w-100 {
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: 12px;
+    }
+
+    .orders-count {
+        display: inline-block;
+        margin-top: 6px;
+    }
+
+    #order-quick-tabs {
+        margin-top: 8px !important;
+        gap: 8px;
+    }
+
+    #order-quick-tabs .btn {
+        flex: 1 1 calc(50% - 8px);
+        text-align: center;
+    }
+
+    .card-body {
+        padding: 12px;
+    }
+
+    .admin-orders-table {
+        min-width: 1040px;
+    }
+
+    .delivery-calendar-card,
+    .sales-report-card,
+    .card {
+        border-radius: 20px;
+    }
+
+    .calendar-head {
+        padding: 14px 14px 0;
+    }
+
+    .sales-report-card .calendar-panel {
+        padding: 10px 10px 12px;
+    }
+
+    .mini-popover {
+        min-width: 240px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .mobile-brand span {
+        font-size: 14px;
+    }
+
+    .mobile-brand img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .mobile-toggle-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .main-content {
+        padding: 12px !important;
+    }
+
+    .page-title {
+        font-size: 21px;
+    }
+
+    #card-header {
+        padding: 14px;
+    }
+
+    #card-header h2,
+    .cal-heading {
+        font-size: 20px;
+    }
+
+    #order-quick-tabs .btn {
+        flex: 1 1 100%;
+    }
+
+    .card-body {
+        padding: 10px;
+    }
+
+    .admin-orders-table {
+        min-width: 980px;
+    }
+
+    .calendar-grid .cell {
+        min-height: 64px;
+    }
+
+    .calendar-grid .day .day-num {
+        font-size: 13px;
+    }
+
+    .mini-popover {
+        min-width: 220px;
+        right: auto;
+        left: 0;
+    }
+
+    .months-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.quick-tabs-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.loads-indicator {
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 700;
+    color: #173F7B;
+    white-space: nowrap;
+}
+
+#order-quick-tabs {
+    margin-top: 0 !important;
+}
+
+@media (max-width: 767.98px) {
+    .quick-tabs-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .loads-indicator {
+        margin-left: 0;
+        text-align: right;
+        width: 100%;
+    }
+}
+
+.single-panel-card {
+    margin-top: 18px;
+}
+
+.single-panel-card .calendar-panel {
+    min-height: 520px;
+}
+
+@media (max-width: 991.98px) {
+    .single-panel-card .calendar-panel {
+        min-height: auto;
+    }
+}
+
+#order-quick-tabs {
+    margin-top: 0 !important;
+    display: inline-flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    overflow: hidden;
+    border-radius: 999px;
+    border: 1px solid rgba(23,63,123,.10);
+    background: #fff;
+}
+
+#order-quick-tabs .btn {
+    background: #fff !important;
+    color: var(--navy) !important;
+    border: none !important;
+    border-right: 1px solid rgba(23,63,123,.10) !important;
+    border-radius: 0 !important;
+    font-weight: 700;
+    text-decoration: none !important;
+    white-space: nowrap;
+    box-shadow: none;
+    margin: 0 !important;
+}
+
+#order-quick-tabs .btn:last-child {
+    border-right: none !important;
+}
+
+#order-quick-tabs .btn:hover {
+    background: var(--pink-light) !important;
+}
+
+#order-quick-tabs .btn.active {
+    background: var(--navy) !important;
+    color: #fff !important;
+}
+
+#order-quick-tabs .btn.active + .btn {
+    border-left-color: transparent !important;
+}
+
+/* ============================================================
+   E&B Laundry Hub - Delivery Calendar Page
+   Mobile responsive extension
+   ============================================================ */
+
+/* Move inline style here */
+.mini-popover .mini-cal .d.hover-week {
+    background-color: #FFB5FE;
+    color: #173F7B;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+/* Page-specific spacing */
+.delivery-calendar-card {
+    margin-top: 18px;
+}
+
+.delivery-calendar-card .calendar-head {
+    padding: 18px 20px 0;
+}
+
+.delivery-calendar-card .calendar-panel {
+    padding: 0 0 14px;
+}
+
+#cal-title {
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Make nav buttons more balanced */
+#cal-prev,
+#cal-next {
+    min-width: 92px;
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Better desktop/day cell feel */
+.calendar-grid .cell.day {
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.calendar-grid .cell.day:hover {
+    transform: translateY(-1px);
+}
+
+/* Modal improvements */
+#dayEventsModal .modal-content {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+}
+
+#dayEventsModal .modal-body {
+    padding: 18px;
+}
+
+#dayEventsModal .modal-footer {
+    border-top: 1px solid rgba(23,63,123,.08);
+}
+
+#dayEventsModal .day-item {
+    border-color: rgba(23,63,123,.10) !important;
+    border-radius: 14px !important;
+    padding: 12px !important;
+    gap: 10px;
+    background: #fff;
+}
+
+#dayEventsModal .day-item .fw-semibold {
+    color: var(--navy);
+}
+
+/* ================= TABLET ================= */
+@media (max-width: 991.98px) {
+    .delivery-calendar-card .calendar-head {
+        padding: 16px 16px 0;
+    }
+
+    .calendar-head .d-flex.align-items-center.justify-content-between.flex-wrap.gap-3 {
+        gap: 12px !important;
+    }
+
+    .calendar-nav {
+        gap: 10px;
+    }
+
+    .calendar-grid {
+        min-width: 100%;
+        gap: 6px;
+        padding: 0 10px 10px;
+    }
+
+    .calendar-grid .cell {
+        min-height: 78px;
+        padding: 8px 6px;
+    }
+
+    .calendar-grid .day .day-num {
+        top: 6px;
+        right: 7px;
+        font-size: 13px;
+    }
+
+    .calendar-grid .day .badges {
+        left: 6px;
+        right: 6px;
+        bottom: 6px;
+        gap: 5px;
+    }
+
+    .badge-dot {
+        width: 9px;
+        height: 9px;
+    }
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 767.98px) {
+    .delivery-calendar-card {
+        margin-top: 14px;
+        border-radius: 20px;
+    }
+
+    .delivery-calendar-card .calendar-head {
+        padding: 14px 14px 0;
+    }
+
+    .delivery-calendar-card .calendar-panel {
+        padding: 0 0 10px;
+    }
+
+    .calendar-head .d-flex.align-items-center.justify-content-between.flex-wrap.gap-3 {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+
+    .cal-heading {
+        font-size: 21px;
+        line-height: 1.2;
+    }
+
+    .legend {
+        font-size: 13px;
+        justify-content: flex-start;
+    }
+
+    .calendar-nav {
+        display: grid !important;
+        grid-template-columns: 84px 1fr 84px;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 0;
+    }
+
+    #cal-prev,
+    #cal-next {
+        min-width: 0;
+        width: 100%;
+        min-height: 36px;
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+
+    #cal-title {
+        font-size: 14px;
+        line-height: 1.2;
+        white-space: normal;
+        padding: 0 4px;
+    }
+
+    .calendar-grid {
+        min-width: 100%;
+        gap: 5px;
+        padding: 0 8px 8px;
+    }
+
+    .calendar-grid .cell.header {
+        font-size: 11px;
+        padding: 8px 2px;
+        border-radius: 8px;
+    }
+
+    .calendar-grid .cell {
+        min-height: 62px;
+        padding: 6px 4px;
+        border-radius: 8px;
+    }
+
+    .calendar-grid .day .day-num {
+        top: 4px;
+        right: 5px;
+        font-size: 12px;
+    }
+
+    .calendar-grid .day .badges {
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        gap: 4px;
+    }
+
+    .badge-dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .single-panel-card .calendar-panel {
+        min-height: auto;
+    }
+
+    #dayEventsModal .modal-dialog {
+        margin: 12px;
+    }
+
+    #dayEventsModal .modal-body {
+        padding: 14px;
+    }
+
+    #dayEventsModal .day-item {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+
+    #dayEventsModal .day-item > div:last-child {
+        width: 100%;
+    }
+
+    #dayEventsModal .day-item .btn,
+    #dayEventsModal .day-item a.btn {
+        width: 100%;
+        margin: 8px 0 0 0 !important;
+    }
+}
+
+/* ================= SMALL MOBILE ================= */
+@media (max-width: 575.98px) {
+    .page-title {
+        margin-bottom: 6px;
+    }
+
+    .delivery-calendar-card .calendar-head {
+        padding: 12px 12px 0;
+    }
+
+    .cal-heading {
+        font-size: 19px;
+    }
+
+    .legend {
+        font-size: 12px;
+        gap: .35rem;
+    }
+
+    .legend-dot {
+        width: 9px;
+        height: 9px;
+    }
+
+    .calendar-nav {
+        grid-template-columns: 76px 1fr 76px;
+        gap: 6px;
+        padding: 10px 0;
+    }
+
+    #cal-prev,
+    #cal-next {
+        font-size: 12px;
+        min-height: 34px;
+        padding: 6px 8px;
+        border-radius: 9px !important;
+    }
+
+    #cal-title {
+        font-size: 13px;
+    }
+
+    .calendar-grid {
+        gap: 4px;
+        padding: 0 6px 6px;
+    }
+
+    .calendar-grid .cell.header {
+        font-size: 10px;
+        padding: 7px 1px;
+        border-radius: 7px;
+    }
+
+    .calendar-grid .cell {
+        min-height: 52px;
+        padding: 5px 3px;
+        border-radius: 7px;
+    }
+
+    .calendar-grid .day .day-num {
+        top: 4px;
+        right: 4px;
+        font-size: 11px;
+    }
+
+    .calendar-grid .day .badges {
+        left: 4px;
+        right: 4px;
+        bottom: 4px;
+        gap: 3px;
+    }
+
+    .badge-dot {
+        width: 7px;
+        height: 7px;
+    }
+
+    #dayEventsModal .modal-dialog {
+        margin: 8px;
+    }
+
+    #dayEventsModal .modal-title {
+        font-size: 15px;
+    }
+
+    #dayEventsModal .modal-body {
+        padding: 12px;
+    }
+
+    #dayEventsModal .day-item {
+        padding: 10px !important;
+    }
+
+    #dayEventsModal .day-item .small {
+        font-size: 12px;
+    }
+}
+
+/* ================= EXTRA SMALL ================= */
+@media (max-width: 420px) {
+    .calendar-nav {
+        grid-template-columns: 70px 1fr 70px;
+    }
+
+    #cal-prev,
+    #cal-next {
+        font-size: 11px;
+        padding: 6px;
+    }
+
+    #cal-title {
+        font-size: 12px;
+    }
+
+    .calendar-grid .cell.header {
+        font-size: 9px;
+    }
+
+    .calendar-grid .cell {
+        min-height: 48px;
+    }
+
+    .calendar-grid .day .day-num {
+        font-size: 10px;
+    }
+
+    .badge-dot {
+        width: 6px;
+        height: 6px;
+    }
+}
+
+/* ============================================================
+   E&B Laundry Hub - Sales Report Page
+   Separate CSS only
+   Keeps dashboard style, improves tables, spacing, and mobile
+   ============================================================ */
+
+/* ===== Page spacing ===== */
+.sales-report-card {
+    margin-top: 18px;
+}
+
+.sales-report-card .calendar-head {
+    padding: 18px 20px 0;
+}
+
+.sales-report-card .calendar-panel {
+    padding: 0 0 14px;
+}
+
+.sales-report-card .p-3.p-lg-4 {
+    padding: 1rem !important;
+}
+
+@media (min-width: 992px) {
+    .sales-report-card .p-3.p-lg-4 {
+        padding: 1.35rem !important;
+    }
+}
+
+/* ===== Top range buttons ===== */
+#sales-range {
+    position: relative;
+    gap: 0;
+    border-radius: 12px;
+    overflow: visible;
+    box-shadow: none;
+}
+
+#sales-range .sales-range-btn {
+    min-width: 78px;
+    min-height: 40px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#sales-range .sales-range-btn:focus {
+    box-shadow: none !important;
+}
+
+/* ===== Popovers ===== */
+.mini-popover {
+    min-width: 280px;
+    border-radius: 16px;
+    border: 1px solid rgba(23,63,123,.08);
+    box-shadow: var(--shadow-soft);
+    padding: 10px;
+}
+
+.mini-header {
+    padding: 6px 4px 10px;
+    margin-bottom: 8px;
+}
+
+.mini-header .fw-semibold {
+    color: var(--navy);
+    font-size: 14px;
+}
+
+.mini-nav {
+    min-width: 36px;
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mini-cal {
+    gap: 6px;
+}
+
+.mini-cal .dow {
+    font-size: 12px;
+}
+
+.mini-cal .d {
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.months-grid {
+    gap: 8px;
+}
+
+.months-grid .m {
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+}
+
+/* ===== KPI summary table card ===== */
+.sales-report-card .card.border-rose {
+    border: 1px solid rgba(255,110,247,.18) !important;
+    border-radius: 20px;
+    box-shadow: none;
+    overflow: hidden;
+}
+
+.sales-report-card .card.border-rose .card-body {
+    padding: 0 !important;
+}
+
+.eb-stat-table {
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.eb-stat-table thead th {
+    background: var(--navy) !important;
+    color: #fff !important;
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 14px 16px;
+    vertical-align: middle;
+}
+
+.eb-stat-table thead th:first-child {
+    text-align: left !important;
+}
+
+.eb-stat-table thead th:last-child {
+    text-align: right !important;
+}
+
+.eb-stat-table tbody tr {
+    transition: background var(--transition);
+}
+
+.eb-stat-table tbody tr:nth-child(even) {
+    background: #fcfcff;
+}
+
+.eb-stat-table tbody tr:hover {
+    background: #f8f4ff;
+}
+
+.eb-stat-table tbody td {
+    padding: 15px 16px;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--gray-line) !important;
+    vertical-align: middle;
+}
+
+.eb-stat-table tbody td:first-child {
+    font-weight: 600;
+    color: var(--navy);
+}
+
+.eb-stat-table tbody td:last-child {
+    text-align: right !important;
+    font-weight: 700;
+    color: var(--navy);
+}
+
+/* ===== Service / Payment tables ===== */
+.sales-report-card .table {
+    margin-bottom: 0;
+}
+
+.sales-report-card .table thead th {
+    vertical-align: middle;
+}
+
+.table-eb th {
+    background: var(--navy) !important;
+    color: #fff !important;
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 14px 16px;
+    border: none !important;
+}
+
+.table-eb th:first-child {
+    text-align: left !important;
+}
+
+.table-eb th:nth-child(2) {
+    text-align: center !important;
+    width: 110px;
+}
+
+.table-eb th:nth-child(3) {
+    text-align: right !important;
+    width: 140px;
+}
+
+#tbl-by-service tr,
+#tbl-by-payment tr {
+    transition: background var(--transition);
+}
+
+#tbl-by-service tr:nth-child(even),
+#tbl-by-payment tr:nth-child(even) {
+    background: #fcfcff;
+}
+
+#tbl-by-service tr:hover,
+#tbl-by-payment tr:hover {
+    background: #f8f4ff;
+}
+
+#tbl-by-service td,
+#tbl-by-payment td {
+    padding: 15px 16px;
+    border-top: 1px solid var(--gray-line) !important;
+    font-size: 14px;
+    vertical-align: middle;
+    color: var(--muted);
+}
+
+#tbl-by-service td:nth-child(1),
+#tbl-by-payment td:nth-child(1) {
+    font-weight: 600;
+    color: var(--navy);
+    text-align: left;
+}
+
+#tbl-by-service td:nth-child(2),
+#tbl-by-payment td:nth-child(2) {
+    text-align: center !important;
+    font-weight: 700;
+    color: #42526e;
+}
+
+#tbl-by-service td:nth-child(3),
+#tbl-by-payment td:nth-child(3) {
+    text-align: right !important;
+    font-weight: 700;
+    color: var(--navy);
+    white-space: nowrap;
+}
+
+/* No data row */
+#tbl-by-service td.text-center.text-muted,
+#tbl-by-payment td.text-center.text-muted {
+    text-align: center !important;
+    color: #8a94a6 !important;
+    font-style: italic;
+    padding: 18px 12px;
+}
+
+/* ===== Make row cards breathe more ===== */
+.sales-report-card .row.g-3 {
+    --bs-gutter-x: 1rem;
+    --bs-gutter-y: 1rem;
+    margin-top: 0;
+}
+
+.sales-report-card .col-lg-6 .card.border-rose {
+    height: 100%;
+}
+
+/* ===== Weekly trend card ===== */
+.eb-weekly-card {
+    border: 1px solid rgba(255,110,247,.18) !important;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+#weekly-trend-card .card-body {
+    padding: 18px !important;
+}
+
+#weekly-trend-card .fw-semibold {
+    font-size: 16px;
+    font-family: var(--font-head);
+}
+
+#weekly-trend-range {
+    font-size: 13px;
+}
+
+.eb-weekly-row {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 12px;
+    align-items: end;
+}
+
+.eb-axis {
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-right: 4px;
+}
+
+.eb-axis span {
+    font-size: 12px;
+    color: var(--navy);
+    font-weight: 600;
+}
+
+.eb-chart {
+    height: 180px;
+    position: relative;
+}
+
+.eb-bars {
+    position: relative;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    align-items: end;
+}
+
+.eb-weekly-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.eb-weekly-total {
+    font-size: 12px;
+    color: var(--navy);
+    min-height: 16px;
+    margin-bottom: 6px;
+    font-weight: 700;
+}
+
+.eb-weekly-bar {
+    width: 100%;
+    background: #fff;
+    border: 1px solid #f2d5ef;
+    border-radius: 12px;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+.eb-weekly-fill {
+    width: 100%;
+    background: #FFB5FE;
+    border-radius: 12px 12px 0 0;
+    height: 0;
+    transition: height .7s ease;
+}
+
+.eb-weekly-label {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #173F7B;
+    font-weight: 700;
+    text-align: center;
+}
+
+.eb-weekly-legend {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+/* ===== Better spacing inside white cards ===== */
+.sales-report-card .bg-white.rounded,
+.sales-report-card .bg-white.rounded-bottom {
+    border-radius: 0 0 18px 18px !important;
+}
+
+/* ===== Mobile responsiveness ===== */
+@media (max-width: 991.98px) {
+    .sales-report-card .calendar-head {
+        padding: 16px 16px 0;
+    }
+
+    .sales-report-card .p-3.p-lg-4 {
+        padding: 14px !important;
+    }
+
+    #sales-range .sales-range-btn {
+        min-width: 72px;
+        padding: 8px 14px;
+    }
+
+    .mini-popover {
+        min-width: 250px;
+    }
+
+    .table-eb th,
+    .eb-stat-table thead th,
+    #tbl-by-service td,
+    #tbl-by-payment td,
+    .eb-stat-table tbody td {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .eb-bars {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .sales-report-card .calendar-head {
+        padding: 14px 14px 0;
+    }
+
+    .sales-report-card .calendar-head .d-flex.align-items-center.justify-content-between.flex-wrap.gap-3 {
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: 12px !important;
+    }
+
+    .cal-heading {
+        font-size: 22px;
+    }
+
+    #sales-range {
+        width: 100%;
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    #sales-range .sales-range-btn {
+        width: 100%;
+        min-width: 0;
+        min-height: 40px;
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    .mini-popover {
+        left: 0;
+        right: auto;
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        top: calc(100% + 8px);
+        padding: 10px;
+    }
+
+    .mini-cal {
+        gap: 5px;
+    }
+
+    .mini-cal .dow {
+        font-size: 11px;
+    }
+
+    .mini-cal .d {
+        min-height: 32px;
+        font-size: 12px;
+    }
+
+    .months-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .eb-stat-table thead th,
+    .table-eb th {
+        font-size: 12px;
+        padding: 12px 12px;
+    }
+
+    .eb-stat-table tbody td,
+    #tbl-by-service td,
+    #tbl-by-payment td {
+        font-size: 13px;
+        padding: 13px 12px;
+    }
+
+    .table-eb th:nth-child(2) {
+        width: 90px;
+    }
+
+    .table-eb th:nth-child(3) {
+        width: 120px;
+    }
+
+    #weekly-trend-card .card-body {
+        padding: 14px !important;
+    }
+
+    .eb-weekly-row {
+        grid-template-columns: 38px 1fr;
+        gap: 8px;
+    }
+
+    .eb-axis {
+        height: 150px;
+    }
+
+    .eb-chart {
+        height: 150px;
+    }
+
+    .eb-bars {
+        gap: 6px;
+    }
+
+    .eb-weekly-total {
+        font-size: 10px;
+        min-height: 14px;
+    }
+
+    .eb-weekly-label {
+        font-size: 11px;
+        margin-top: 6px;
+    }
+
+    .eb-weekly-legend {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .sales-report-card .calendar-head {
+        padding: 12px 12px 0;
+    }
+
+    .sales-report-card .p-3.p-lg-4 {
+        padding: 12px !important;
+    }
+
+    .cal-heading {
+        font-size: 20px;
+    }
+
+    #sales-range .sales-range-btn {
+        min-height: 38px;
+        font-size: 11px;
+        padding: 7px 8px;
+    }
+
+    .mini-popover {
+        padding: 8px;
+        border-radius: 14px;
+    }
+
+    .mini-header {
+        padding: 4px 2px 8px;
+    }
+
+    .mini-header .fw-semibold {
+        font-size: 13px;
+    }
+
+    .mini-nav {
+        min-width: 32px;
+        min-height: 32px;
+    }
+
+    .mini-cal .dow {
+        font-size: 10px;
+    }
+
+    .mini-cal .d {
+        min-height: 30px;
+        font-size: 11px;
+    }
+
+    .months-grid {
+        gap: 6px;
+    }
+
+    .months-grid .m {
+        min-height: 34px;
+        font-size: 12px;
+    }
+
+    .eb-stat-table thead th,
+    .table-eb th {
+        font-size: 11px;
+        padding: 11px 10px;
+    }
+
+    .eb-stat-table tbody td,
+    #tbl-by-service td,
+    #tbl-by-payment td {
+        font-size: 12px;
+        padding: 12px 10px;
+    }
+
+    .table-eb th:nth-child(2) {
+        width: 76px;
+    }
+
+    .table-eb th:nth-child(3) {
+        width: 105px;
+    }
+
+    .eb-weekly-row {
+        grid-template-columns: 32px 1fr;
+        gap: 6px;
+    }
+
+    .eb-axis {
+        height: 132px;
+    }
+
+    .eb-chart {
+        height: 132px;
+    }
+
+    .eb-axis span {
+        font-size: 10px;
+    }
+
+    .eb-bars {
+        gap: 4px;
+    }
+
+    .eb-weekly-total {
+        font-size: 9px;
+        margin-bottom: 4px;
+    }
+
+    .eb-weekly-label {
+        font-size: 10px;
+    }
+
+    .eb-weekly-legend {
+        font-size: 10px;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 420px) {
+    #sales-range {
+        gap: 0;
+    }
+
+    #sales-range .sales-range-btn {
+        font-size: 10px;
+        min-height: 36px;
+        padding: 6px 4px;
+    }
+
+    .mini-cal {
+        gap: 4px;
+    }
+
+    .mini-cal .d {
+        min-height: 28px;
+        font-size: 10px;
+    }
+
+    .months-grid .m {
+        font-size: 11px;
+        min-height: 32px;
+    }
+
+    .table-eb th:nth-child(2) {
+        width: 68px;
+    }
+
+    .table-eb th:nth-child(3) {
+        width: 96px;
+    }
+}
+
+/* ===== Subtle polish ===== */
+.sales-report-card .card.border-rose:hover {
+    box-shadow: 0 12px 28px rgba(13, 42, 82, 0.06);
+    transition: box-shadow var(--transition);
+}
+
+#kpi-gross,
+#kpi-count,
+#kpi-aov {
+    letter-spacing: 0.01em;
+}
+
+#tbl-by-service td,
+#tbl-by-payment td,
+.eb-stat-table td {
+    background-clip: padding-box;
+}
+
+/* ============================================================
+   E&B Laundry Hub - Loyalty Membership
+   Separate page CSS
+   ============================================================ */
+
+/* ============================================================
+   E&B Laundry Hub - Loyalty Membership
+   Separate page CSS
+   Follows dashboard + order history button design
+   ============================================================ */
+
+.loyalty-page-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.loyalty-page-subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Match order history / dashboard pink pill button */
+.loyalty-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    min-height: 44px;
+    border-radius: var(--radius-pill);
+    font-weight: 700;
+    background: var(--pink);
+    color: #fff !important;
+    border: none;
+    box-shadow: 0 10px 26px rgba(255,110,247,.22);
+    text-decoration: none;
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.loyalty-back-btn:hover {
+    background: #f954ea;
+    color: #fff !important;
+    transform: translateY(-1px);
+}
+
+/* Main card */
+.loyalty-card {
+    margin-top: 20px;
+}
+
+.loyalty-header {
+    padding: 20px 22px 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(249,249,255,.96));
+    border-bottom: 1px solid rgba(23,63,123,.06);
+}
+
+.loyalty-summary-grid {
+    display: grid;
+    grid-template-columns: minmax(260px, 1.1fr) minmax(320px, 1fr);
+    gap: 18px;
+    align-items: stretch;
+}
+
+.loyalty-customer-block {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    min-width: 0;
+}
+
+.loyalty-avatar {
+    width: 68px;
+    height: 68px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, #fff6ff, #ffe0fe);
+    border: 1px solid rgba(255,110,247,.24);
+    color: var(--pink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    flex-shrink: 0;
+    box-shadow: 0 8px 20px rgba(255,110,247,.10);
+}
+
+.loyalty-customer-meta {
+    min-width: 0;
+}
+
+.loyalty-customer-name {
+    font-family: var(--font-head);
+    color: var(--navy);
+    font-size: 1.45rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.4px;
+}
+
+.loyalty-customer-line {
+    color: var(--muted);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.loyalty-customer-line .dot {
+    color: #b2b9c8;
+}
+
+.loyalty-stats-grid {
+    display: grid;
+    grid-template-columns: 1.45fr 0.9fr;
+    gap: 14px;
+}
+
+.loyalty-stat-card {
+    background: #fff;
+    border: 1px solid rgba(23,63,123,.08);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 8px 20px rgba(13,42,82,.04);
+    min-width: 0;
+}
+
+.loyalty-stat-card.earned {
+    background: linear-gradient(180deg, #fff7ff, #fff);
+    border-color: rgba(255,110,247,.18);
+}
+
+.loyalty-stat-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin-bottom: 10px;
+}
+
+.loyalty-progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.loyalty-progress {
+    height: 12px;
+    border-radius: 999px;
+    background: #eef3fb;
+    overflow: hidden;
+}
+
+.loyalty-progress-bar {
+    background: linear-gradient(90deg, var(--pink), #ff98f9);
+    border-radius: 999px;
+}
+
+.loyalty-progress-text {
+    font-weight: 800;
+    color: var(--navy);
+    min-width: 48px;
+    text-align: right;
+}
+
+.loyalty-earned-value {
+    font-family: var(--font-head);
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--navy);
+}
+
+.loyalty-stat-help {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.loyalty-section-title-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.loyalty-section-title {
+    color: var(--navy);
+    font-family: var(--font-head);
+    font-size: 1.08rem;
+    font-weight: 800;
+}
+
+.loyalty-section-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: 6px 12px;
+    background: #f4f7ff;
+    border: 1px solid rgba(23,63,123,.08);
+    border-radius: 999px;
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.loyalty-table-scroll {
+    max-height: 560px;
+    overflow: auto;
+    border-radius: 18px;
+    border: 1px solid rgba(23,63,123,.08);
+    background: #fff;
+    -webkit-overflow-scrolling: touch;
+}
+
+.loyalty-table {
+    margin-bottom: 0;
+    min-width: 980px;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.loyalty-table,
+.loyalty-table * {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.loyalty-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--navy) !important;
+    color: #fff !important;
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 14px 12px;
+    white-space: nowrap;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.loyalty-table th,
+.loyalty-table td {
+    padding: 14px 12px;
+    font-size: 14px;
+    vertical-align: middle !important;
+}
+
+.loyalty-table tbody td {
+    color: var(--muted);
+    border-top: 1px solid var(--gray-line) !important;
+    text-align: center;
+    background: transparent !important;
+}
+
+.loyalty-table tbody tr:nth-child(even) td {
+    background: #fcfcff !important;
+}
+
+.loyalty-table tbody tr:hover td {
+    background: #f8f4ff !important;
+}
+
+.loyalty-table thead th:nth-child(1),
+.loyalty-table tbody td:nth-child(1) {
+    width: 60px;
+}
+
+.loyalty-table thead th:nth-child(2),
+.loyalty-table tbody td:nth-child(2) {
+    width: 170px;
+    text-align: left !important;
+}
+
+.loyalty-table thead th:nth-child(3),
+.loyalty-table tbody td:nth-child(3) {
+    width: 170px;
+}
+
+.loyalty-table thead th:nth-child(4),
+.loyalty-table tbody td:nth-child(4) {
+    width: 190px;
+}
+
+.loyalty-table thead th:nth-child(5),
+.loyalty-table tbody td:nth-child(5) {
+    width: 110px;
+}
+
+.loyalty-table thead th:nth-child(6),
+.loyalty-table tbody td:nth-child(6) {
+    width: 120px;
+}
+
+.loyalty-table thead th:nth-child(7),
+.loyalty-table tbody td:nth-child(7) {
+    width: 160px;
+}
+
+.category-pill,
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.category-pill.walkin {
+    background: #fff4fb;
+    color: #b64f98;
+    border: 1px solid #ffd3ef;
+}
+
+.category-pill.pickup {
+    background: #edf4ff;
+    color: var(--navy);
+    border: 1px solid #d9e5ff;
+}
+
+.status-pill.status-pending {
+    background: #eff2f7;
+    color: #4f5b71;
+}
+
+.status-pill.status-pickup {
+    background: #eaf4ff;
+    color: #2367c7;
+}
+
+.status-pill.status-ongoing {
+    background: #fff4df;
+    color: #9b6500;
+}
+
+.status-pill.status-delivery {
+    background: #edf2ff;
+    color: #3d57c9;
+}
+
+.status-pill.status-received {
+    background: #f4ecff;
+    color: #7447c7;
+}
+
+.status-pill.status-completed {
+    background: #edf9ef;
+    color: #1f8a43;
+}
+
+.status-pill.status-canceled {
+    background: #fff0f0;
+    color: #bb2d3b;
+}
+
+.date-main {
+    font-weight: 700;
+    color: var(--navy);
+    white-space: nowrap;
+}
+
+.date-sub {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+@media (max-width: 991.98px) {
+    .loyalty-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .loyalty-stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .loyalty-page-top {
+        align-items: stretch;
+    }
+
+    .loyalty-back-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .loyalty-header {
+        padding: 18px;
+    }
+
+    .loyalty-customer-block {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .loyalty-avatar {
+        width: 58px;
+        height: 58px;
+        font-size: 26px;
+        border-radius: 18px;
+    }
+
+    .loyalty-customer-name {
+        font-size: 1.25rem;
+    }
+
+    .loyalty-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .loyalty-table {
+        min-width: 930px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .loyalty-header {
+        padding: 14px;
+    }
+
+    .loyalty-stat-card {
+        padding: 14px;
+    }
+
+    .loyalty-section-title-wrap {
+        align-items: stretch;
+    }
+
+    .loyalty-section-count {
+        width: 100%;
+    }
+}
