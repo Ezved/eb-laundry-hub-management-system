@@ -3,14 +3,19 @@
 
 ## Features
 
-<img width="1865" height="944" alt="image" src="https://github.com/user-attachments/assets/ce530b1b-c4d8-495b-bcce-61e7d88497c4" /><br>User Side
+<img width="1865" height="944" alt="image" src="https://github.com/user-attachments/assets/ce530b1b-c4d8-495b-bcce-61e7d88497c4" />
+<img width="1851" height="945" alt="image" src="https://github.com/user-attachments/assets/da2fde8d-8b27-4b25-869f-fef46eb91729" />
+<br>User Side
+
 - Schedule Pickup & Delivery  
 - Order Summary with detailed breakdown  
 - Payment Options (COD & GCash)  
 - Order Tracking  
 - Rescheduling  
 
-<img width="1863" height="944" alt="image" src="https://github.com/user-attachments/assets/49635483-1919-424c-9392-b3396229220c" /><br>Admin Side
+<img width="1863" height="944" alt="image" src="https://github.com/user-attachments/assets/49635483-1919-424c-9392-b3396229220c" />
+<br>Admin Side
+
 - Dashboard Management  
 - Order Processing  
 - Capacity Control
