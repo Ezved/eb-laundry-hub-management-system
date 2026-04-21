@@ -66,7 +66,10 @@ body {
     margin-bottom: 14px;
 }
 .light-tag  { background: rgba(255,110,247,.15); color: var(--pink); }
-.center-tag { display: block; text-align: center; }
+.center-tag {
+    display: flex;
+    justify-content: center;
+}
 
 .section-h {
     font-family: var(--font-head);
@@ -663,69 +666,160 @@ body {
 
 /* ============================================================
    TESTIMONIALS
+   Auto-moving right to left
+   Aligned equally with section margins
    ============================================================ */
 .testimonials-section {
     background: var(--gray);
     padding: 96px 0;
+    overflow: hidden;
 }
 
-/* Carousel track — overflows outside .wrap, scrolls horizontally */
 .reviews-carousel {
-    margin-top: 48px;
-    overflow-x: auto;
-    overflow-y: visible;
+    width: 100%;
+    max-width: 1200px;
+    margin: 48px auto 0;
     padding: 16px 48px 24px;
-    /* align left edge with .wrap content */
-    margin-left: calc((100vw - 1200px) / 2);
-    margin-right: calc((100vw - 1200px) / 2);
-    display: flex;
-    gap: 20px;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    cursor: grab;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
 }
-.reviews-carousel:active { cursor: grabbing; }
 
-/* hide scrollbar but keep it functional */
-.reviews-carousel::-webkit-scrollbar { height: 0; }
-.reviews-carousel { scrollbar-width: none; }
+.reviews-track {
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+    width: max-content;
+    animation: reviewsMarquee 32s linear infinite;
+    will-change: transform;
+}
+
+.reviews-carousel:hover .reviews-track {
+    animation-play-state: paused;
+}
 
 .review-card {
+    flex: 0 0 320px;
+    min-height: 100%;
     background: var(--white);
     border-radius: var(--radius-md);
     padding: 28px 26px;
     border: 1px solid rgba(23,63,123,.07);
     position: relative;
     transition: transform var(--transition), box-shadow var(--transition);
-    /* fixed width so cards don't stretch */
-    flex: 0 0 320px;
-    scroll-snap-align: start;
 }
-.review-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(23,63,123,.08); }
 
-/* Featured card — short pink top accent bar, not full border */
+.review-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 36px rgba(23,63,123,.08);
+}
+
 .review-featured {
     border: 1px solid rgba(23,63,123,.07);
-    border-top: 3px solid var(--pink);
 }
+
 .featured-badge {
     position: absolute;
-    top: -1px; left: 22px;
+    top: -1px;
+    left: 22px;
     background: var(--pink);
     color: #fff;
-    font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: .05em;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
     padding: 3px 12px;
     border-radius: 0 0 var(--radius-pill) var(--radius-pill);
 }
 
-.review-stars { color: #f59e0b; font-size: 15px; margin-bottom: 14px; }
-.review-text  { font-size: 15px; color: var(--muted); line-height: 1.85; font-style: italic; margin-bottom: 20px; font-weight: 400; }
-.reviewer     { display: flex; align-items: center; gap: 11px; }
-.rev-avatar   { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), #c084fc); display: flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-head); font-size: 16px; font-weight: 800; flex-shrink: 0; }
-.rev-name     { font-family: var(--font-head); font-size: 15px; font-weight: 800; color: var(--navy); letter-spacing: -0.2px; }
-.rev-date     { font-size: 12px; color: var(--muted); margin-top: 2px; font-weight: 500; }
+.review-stars {
+    color: #f59e0b;
+    font-size: 15px;
+    margin-bottom: 14px;
+}
 
+.review-text {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.85;
+    font-style: italic;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.reviewer {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.rev-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink), #c084fc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: var(--font-head);
+    font-size: 16px;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.rev-name {
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.2px;
+}
+
+.rev-date {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+    font-weight: 500;
+}
+
+@keyframes reviewsMarquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-50% - 10px));
+    }
+}
+
+@media (max-width: 900px) {
+    .reviews-carousel {
+        padding: 16px 24px 24px;
+    }
+
+    .review-card {
+        flex: 0 0 280px;
+    }
+
+    .reviews-track {
+        animation-duration: 26s;
+    }
+}
+
+@media (max-width: 600px) {
+    .reviews-carousel {
+        padding: 16px 20px 24px;
+    }
+
+    .review-card {
+        flex: 0 0 260px;
+        padding: 24px 22px;
+    }
+
+    .reviews-track {
+        animation-duration: 22s;
+    }
+}
 
 /* ============================================================
    CONTACT / FOOTER
@@ -862,23 +956,4 @@ body {
     .step-text p, .svc-card p, .why-card p, .cinfo-val { font-size: 15px; }
 }
 
-.reviews-carousel {
-    margin-top: 48px;
-    overflow: hidden;
-    padding: 16px 48px 24px;
-    margin-left: calc((100vw - 1200px) / 2);
-    margin-right: calc((100vw - 1200px) / 2);
-    position: relative;
-}
-
-.reviews-track {
-    display: flex;
-    gap: 20px;
-    animation: scrollTrack 30s linear infinite;
-}
 .reviews-track:hover { animation-play-state: paused; }
-
-@keyframes scrollTrack {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}

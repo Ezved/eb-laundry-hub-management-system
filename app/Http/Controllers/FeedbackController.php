@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Controllers/FeedbackController.php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -10,7 +8,7 @@ use App\Models\Feedback;
 
 class FeedbackController extends Controller
 {
-    // Show the user feedback page (form + recent public feedback)
+    // Show the user feedback page
     public function create()
     {
         $visible = Feedback::where('is_visible', true)
@@ -23,47 +21,54 @@ class FeedbackController extends Controller
             ->take(10)
             ->get();
 
+        $hasFeedback = $mine->isNotEmpty();
+
         return view('user.feedback.feedback', [
             'visibleFeedback' => $visible,
             'myFeedback'      => $mine,
+            'hasFeedback'     => $hasFeedback,
         ]);
     }
 
-    // Save a feedback; admin can manage in Admin → Feedbacks
+    // Save only one feedback per user
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'rating'  => ['required','integer','min:1','max:5'],
-            'message' => ['required','string','max:1000'],
-        ]);
-
         $user = Auth::user();
 
-        Feedback::create([
-            'user_id'    => $user?->id,
-            'name'       => $user?->name,
-            'rating'     => $data['rating'],
-            'message'    => $data['message'],
-            'is_visible' => true,  // set to false if you prefer admin moderation first
+        $existingFeedback = Feedback::where('user_id', $user->id)->first();
+
+        if ($existingFeedback) {
+            return redirect()
+                ->route('user.feedback')
+                ->with('fail', 'You can only submit feedback once.');
+        }
+
+        $data = $request->validate([
+            'rating'  => ['required', 'integer', 'min:1', 'max:5'],
+            'message' => ['required', 'string', 'max:1000'],
         ]);
 
-        // go back to the user feedback page
-        return redirect()->route('user.feedback')->with('success', 'Thanks for the feedback!');
+        Feedback::create([
+            'user_id'    => $user->id,
+            'name'       => $user->name,
+            'rating'     => $data['rating'],
+            'message'    => $data['message'],
+            'is_visible' => true,
+        ]);
+
+        return redirect()
+            ->route('user.feedback')
+            ->with('success', 'Thanks for the feedback!');
     }
 
-    // app/Http/Controllers/FeedbackController.php
+    public function destroy(Feedback $feedback)
+    {
+        if (auth()->id() !== $feedback->user_id) {
+            abort(403, 'You are not allowed to delete this feedback.');
+        }
 
-public function destroy(\App\Models\Feedback $feedback)
-{
-    // only the owner can delete
-    if (auth()->id() !== $feedback->user_id) {
-        abort(403, 'You are not allowed to delete this feedback.');
+        $feedback->delete();
+
+        return back()->with('success', 'Your feedback has been deleted.');
     }
-
-    $feedback->delete();
-
-    return back()->with('success', 'Your feedback has been deleted.');
 }
-
-}
-

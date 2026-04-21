@@ -1,61 +1,110 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<img width="1850" height="945" alt="image" src="https://github.com/user-attachments/assets/28799de0-ce94-4888-95e6-910d02d5b875" /><br>E&B Laundry Hub System
+<br>A modern web-based laundry management system designed to streamline booking, order tracking, and service operations for E&B Laundry Hub. The system provides a seamless experience for both customers and administrators, supporting pickup & delivery scheduling, order summaries, and real-time order management.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Features
 
-## About Laravel
+<img width="1865" height="944" alt="image" src="https://github.com/user-attachments/assets/ce530b1b-c4d8-495b-bcce-61e7d88497c4" />
+<img width="1851" height="945" alt="image" src="https://github.com/user-attachments/assets/da2fde8d-8b27-4b25-869f-fef46eb91729" />
+<br>User Side
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Schedule Pickup & Delivery  
+- Order Summary with detailed breakdown  
+- Payment Options (COD & GCash)  
+- Order Tracking  
+- Rescheduling  
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<img width="1863" height="944" alt="image" src="https://github.com/user-attachments/assets/49635483-1919-424c-9392-b3396229220c" />
+<br>Admin Side
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Dashboard Management  
+- Order Processing  
+- Capacity Control
 
-## Learning Laravel
+## Tech Stack
+| Layer        | Technology                               |
+| ------------ | ---------------------------------------- |
+| Backend      | Laravel                                  |
+| Frontend     | HTML, CSS, JavaScript                    |
+| UI Framework | Bootstrap                                |
+| Database     | MySQL                                    |
+| Styling      | Custom CSS (Glass UI, Responsive Design) |
+| Mail         | Laravel Mail (SMTP)                      |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Project Structure
+- E&B-Laundry-Hub/
+- │── app/
+- │   ├── Http/Controllers/
+- │   │   └── OrderController.php
+- │── resources/
+- │   ├── views/
+- │   │   ├── user/dashboard/
+- │   │   ├── admin/
+- │── public/
+- │   ├── css/
+- │   ├── images/
+- │── routes/
+- │   └── web.php
+- │── database/
+- │── .env
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Installation
+1. Clone the repository
+<br> git clone https://github.com/your-username/eb-laundry-hub.git
+2. Navigate to project
+<br> cd eb-laundry-hub
+3. Install dependencies
+<br> composer install
+<br> npm install
+4. Setup environment
+<br> cp .env.example .env
+<br> php artisan key:generate
+5. Configure database in .env
+6. Run migrations
+<br> php artisan migrate
+7. Start server
+<br> php artisan serve
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Usage
 
-## Laravel Sponsors
+Follow these steps to use the system:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### For Users
 
-### Premium Partners
+- Register or log in to your account  
+- Schedule a laundry pickup by filling out the booking form  
+- Select service type, add-ons, and preferred schedule  
+- Review the Order Summary before confirming  
+- Choose a payment method (Cash on Delivery or GCash)  
+- Confirm booking and wait for email confirmation  
+- Track your order status in the dashboard  
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### For Admin
 
-## Contributing
+- Log in to the admin dashboard  
+- View all incoming orders  
+- Update order status (Pending → Ongoing → Completed)  
+- Manage customer orders and history  
+- Monitor daily laundry capacity (30 loads limit)   
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Future Improvements
 
-## Code of Conduct
+- Online payment integration (GCash API)  
+- SMS notifications  
+- Mobile app version  
+- AI-based load estimation  
+- Admin analytics dashboard
+- Inventory 
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Developer
 
-## Security Vulnerabilities
+**E&B Laundry Hub System** was designed and developed by:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Lourrence Ed Senajon & Wesley Crabajales**  
+BS Computer Science – 3rd Year  
+Ateneo de Davao University  
 
-## License
+## Acknowledgement
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Special thanks to:
+E&B Laundry Hub  
+Project advisers and instructors 

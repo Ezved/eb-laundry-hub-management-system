@@ -227,27 +227,67 @@
 {{-- ===== TESTIMONIALS ===== --}}
 <section class="testimonials-section" id="feedback">
     <div class="wrap">
-        <div class="section-tag center-tag">What Customers Say</div>
+        <div class="center-tag">
+            <span class="section-tag">What Customers Say</span>
+        </div>
         <h2 class="section-h center-h">Real Words From Real<br>Happy Customers</h2>
+    </div>
 
-        <div class="reviews-carousel" id="reviewsCarousel">
-            @php $has = isset($feedbacks) && count($feedbacks) > 0; @endphp
+    @php
+        $has = isset($feedbacks) && count($feedbacks) > 0;
+    @endphp
 
+    <div class="reviews-carousel">
+        <div class="reviews-track">
             @if($has)
-                @foreach($feedbacks->take(3) as $i => $fb)
+                @foreach($feedbacks->take(6) as $i => $fb)
                     <div class="review-card {{ $i === 1 ? 'review-featured' : '' }}">
-                        @if($i === 1)
-                            <div class="featured-badge">Top Review</div>
-                        @endif
+
                         <div class="review-stars">
-                            @for($s=1;$s<=5;$s++){{ $s <= (int)$fb->rating ? '★' : '☆' }}@endfor
+                            @for($s = 1; $s <= 5; $s++)
+                                {{ $s <= (int) $fb->rating ? '★' : '☆' }}
+                            @endfor
                         </div>
+
                         <p class="review-text">"{{ $fb->message }}"</p>
+
                         <div class="reviewer">
-                            <div class="rev-avatar">{{ strtoupper(substr($fb->name ?? 'C', 0, 1)) }}</div>
+                            <div class="rev-avatar">
+                                {{ strtoupper(substr($fb->name ?? ($fb->user->name ?? 'C'), 0, 1)) }}
+                            </div>
                             <div>
                                 <div class="rev-name">{{ $fb->name ?? ($fb->user->name ?? 'Customer') }}</div>
-                                <div class="rev-date">{{ $fb->created_at->timezone(config('app.timezone'))->format('M d, Y') }}</div>
+                                <div class="rev-date">
+                                    {{ optional($fb->created_at)->timezone(config('app.timezone'))->format('M d, Y') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+normalizer_get_raw_decomposition
+                {{-- duplicate set for seamless infinite loop --}}
+                @foreach($feedbacks->take(6) as $i => $fb)
+                    <div class="review-card {{ $i === 1 ? 'review-featured' : '' }}" aria-hidden="true">
+                        @if($i === 1)
+                        @endif 
+
+                        <div class="review-stars">
+                            @for($s = 1; $s <= 5; $s++)
+                                {{ $s <= (int) $fb->rating ? '★' : '☆' }}
+                            @endfor
+                        </div>
+
+                        <p class="review-text">"{{ $fb->message }}"</p>
+
+                        <div class="reviewer">
+                            <div class="rev-avatar">
+                                {{ strtoupper(substr($fb->name ?? ($fb->user->name ?? 'C'), 0, 1)) }}
+                            </div>
+                            <div>
+                                <div class="rev-name">{{ $fb->name ?? ($fb->user->name ?? 'Customer') }}</div>
+                                <div class="rev-date">
+                                    {{ optional($fb->created_at)->timezone(config('app.timezone'))->format('M d, Y') }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -258,24 +298,73 @@
                     <p class="review-text">"Super bilis ng delivery and ang bango ng damit ko! Best laundry sa Maa!"</p>
                     <div class="reviewer">
                         <div class="rev-avatar">M</div>
-                        <div><div class="rev-name">Maria Santos</div><div class="rev-date">Apr 2025</div></div>
+                        <div>
+                            <div class="rev-name">Maria Santos</div>
+                            <div class="rev-date">Apr 2025</div>
+                        </div>
                     </div>
                 </div>
+
                 <div class="review-card review-featured">
                     <div class="featured-badge">Top Review</div>
                     <div class="review-stars">★★★★★</div>
                     <p class="review-text">"Sobrang ganda ng serbisyo! Yung loyalty card nila ay napaka-sulit. 10 stamps = 1 free wash!"</p>
                     <div class="reviewer">
                         <div class="rev-avatar">J</div>
-                        <div><div class="rev-name">Juan dela Cruz</div><div class="rev-date">Mar 2025</div></div>
+                        <div>
+                            <div class="rev-name">Juan dela Cruz</div>
+                            <div class="rev-date">Mar 2025</div>
+                        </div>
                     </div>
                 </div>
+
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
                     <p class="review-text">"Inentrust ko yung delicate na damit ko at hindi ako nabigo. Very careful and presentable ang pagkakatupi."</p>
                     <div class="reviewer">
                         <div class="rev-avatar">A</div>
-                        <div><div class="rev-name">Ana Reyes</div><div class="rev-date">Feb 2025</div></div>
+                        <div>
+                            <div class="rev-name">Ana Reyes</div>
+                            <div class="rev-date">Feb 2025</div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- duplicate fallback set --}}
+                <div class="review-card" aria-hidden="true">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Super bilis ng delivery and ang bango ng damit ko! Best laundry sa Maa!"</p>
+                    <div class="reviewer">
+                        <div class="rev-avatar">M</div>
+                        <div>
+                            <div class="rev-name">Maria Santos</div>
+                            <div class="rev-date">Apr 2025</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card review-featured" aria-hidden="true">
+                    <div class="featured-badge">Top Review</div>
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Sobrang ganda ng serbisyo! Yung loyalty card nila ay napaka-sulit. 10 stamps = 1 free wash!"</p>
+                    <div class="reviewer">
+                        <div class="rev-avatar">J</div>
+                        <div>
+                            <div class="rev-name">Juan dela Cruz</div>
+                            <div class="rev-date">Mar 2025</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card" aria-hidden="true">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Inentrust ko yung delicate na damit ko at hindi ako nabigo. Very careful and presentable ang pagkakatupi."</p>
+                    <div class="reviewer">
+                        <div class="rev-avatar">A</div>
+                        <div>
+                            <div class="rev-name">Ana Reyes</div>
+                            <div class="rev-date">Feb 2025</div>
+                        </div>
                     </div>
                 </div>
             @endif
@@ -388,24 +477,7 @@
         observer.observe(el);
     });
 
-    /* Drag-to-scroll for reviews carousel */
-    const carousel = document.getElementById('reviewsCarousel');
-    if (carousel) {
-        let isDown = false, startX, scrollLeft;
-        carousel.addEventListener('mousedown', e => {
-            isDown = true;
-            startX = e.pageX - carousel.offsetLeft;
-            scrollLeft = carousel.scrollLeft;
-        });
-        carousel.addEventListener('mouseleave', () => isDown = false);
-        carousel.addEventListener('mouseup',    () => isDown = false);
-        carousel.addEventListener('mousemove', e => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - carousel.offsetLeft;
-            carousel.scrollLeft = scrollLeft - (x - startX) * 1.2;
-        });
-    }
+    
 })();
 </script>
 

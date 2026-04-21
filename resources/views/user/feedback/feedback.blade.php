@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Feedback</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="{{ asset('css/user/dashboard/dashboard.css') }}" rel="stylesheet">
     <link href="{{ asset('css/user/feedback/feedback.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ asset('images/E&B_Logo.png') }}" type="image/png">
@@ -28,8 +25,14 @@
 
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+    @php
+        $is = fn(...$r) => request()->routeIs(...$r) ? 'active' : '';
+        $feedbackCollection = collect($myFeedback ?? []);
+        $hasFeedback = $hasFeedback ?? $feedbackCollection->isNotEmpty();
+    @endphp
+
     <div class="app-shell">
-        <aside id="side-bar" class="d-flex flex-column shrink-0 p-3">
+        <aside id="side-bar" class="d-flex flex-column flex-shrink-0 p-3">
             <div class="d-flex justify-content-end mb-2">
                 <button type="button" id="sidebarToggle" class="btn btn-sm sidebar-toggle-btn" title="Collapse sidebar">
                     <i class="bi bi-list"></i>
@@ -44,10 +47,6 @@
 
             <hr>
 
-            @php
-                $is = fn(...$r) => request()->routeIs(...$r) ? 'active' : '';
-            @endphp
-
             <ul class="nav nav-pills flex-column mb-auto">
                 <li>
                     <a href="{{ route('user.dashboard') }}" class="nav-link {{ $is('user.dashboard') }}">
@@ -56,22 +55,19 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('loyalty.membership') }}"
-                       class="nav-link {{ $is('loyalty.membership', 'loyalty_membemship') }}">
+                    <a href="{{ route('loyalty.membership') }}" class="nav-link {{ $is('loyalty.membership', 'loyalty_membemship') }}">
                         <i class="bi bi-award me-2"></i>
                         <span>Loyalty Membership</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('user.orders.history') }}"
-                       class="nav-link {{ $is('user.orders.history', 'user.orderHistory') }}">
+                    <a href="{{ route('user.orders.history') }}" class="nav-link {{ $is('user.orders.history', 'user.orderHistory') }}">
                         <i class="bi bi-clock-history me-2"></i>
                         <span>Order History</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('user.feedback') }}"
-                       class="nav-link {{ $is('user.feedback') }}">
+                    <a href="{{ route('user.feedback') }}" class="nav-link {{ $is('user.feedback') }}">
                         <i class="bi bi-chat-dots me-2"></i>
                         <span>Feedback</span>
                     </a>
@@ -80,7 +76,7 @@
 
             <hr>
 
-            <div class="dropdown text-end">
+            <div class="dropdown text-end mt-auto">
                 <button id="btn-admin" class="btn dropdown-toggle d-flex align-items-center" type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
@@ -99,6 +95,7 @@
                             Settings
                         </a>
                     </li>
+                    <li><hr class="dropdown-divider"></li>
                     <li>
                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
                             @csrf
@@ -112,64 +109,69 @@
             </div>
         </aside>
 
-        <main class="main-content p-4 feedback-page">
-            <h1 class="page-title">Feedback</h1>
-            <hr>
+        <main class="main-content p-4">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
+                <div>
+                    <h1 class="page-title">Feedback</h1>
+                </div>
 
-            <div class="container-fluid feedback-container">
+                <div class="feedback-header-badge">
+                    <i class="bi bi-chat-heart-fill me-2"></i>
+                    <span>{{ $hasFeedback ? 'Submitted' : 'Pending' }}</span>
+                </div>
+            </div>
+
+            <hr class="mb-4">
+
+            <div class="container-fluid">
                 @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show feedback-alert feedback-alert-success" role="alert">
+                    <div class="alert feedback-alert feedback-alert-success mb-3">
                         <i class="bi bi-check-circle-fill me-2"></i>
                         {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                @if (session('fail'))
+                    <div class="alert feedback-alert feedback-alert-danger mb-3">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        {{ session('fail') }}
                     </div>
                 @endif
 
                 @if ($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show feedback-alert feedback-alert-danger" role="alert">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <div class="alert feedback-alert feedback-alert-danger mb-3">
                         <ul class="mb-0 ps-3">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 
-                <div class="card feedback-unified-card">
-                    <div class="card-header feedback-hero" id="card-header">
-                        <div class="feedback-hero-badge">
-                            <i class="bi bi-chat-heart-fill"></i>
-                        </div>
-
-                        <div class="feedback-hero-text">
-                            <h2 class="mb-1">Share Your Experience</h2>
-                            <p class="mb-0">
-                                Your feedback helps us improve our laundry service and customer experience.
-                            </p>
-                        </div>
-
-                        <div class="feedback-hero-count">
-                            <span>{{ ($myFeedback ?? collect())->count() }}</span>
-                            <small>{{ ($myFeedback ?? collect())->count() === 1 ? 'Feedback' : 'Feedbacks' }}</small>
+                <div class="card feedback-card">
+                    <div class="card-header" id="card-header">
+                        <div class="feedback-card-head">
+                            <div>
+                                <h2 class="mb-1">Customer Feedback</h2>
+                                <p class="orders-count mb-0">
+                                    {{ $feedbackCollection->count() }} {{ $feedbackCollection->count() === 1 ? 'feedback submitted' : 'feedbacks submitted' }}
+                                </p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="card-body feedback-unified-body">
-                        <section class="feedback-section-block">
-                            <div class="feedback-section-head">
-                                <div>
+                    <div class="card-body">
+                        <div class="feedback-layout">
+                            <section class="feedback-panel">
+                                <div class="feedback-panel-head">
                                     <h3>Leave Feedback</h3>
                                     <p>Tell us what you liked and what we can improve.</p>
                                 </div>
-                            </div>
 
-                            <form action="{{ route('feedback.store') }}" method="POST" class="feedback-form">
-                                @csrf
+                                @if(!$hasFeedback)
+                                    <form action="{{ route('feedback.store') }}" method="POST" class="feedback-form">
+                                        @csrf
 
-                                <div class="feedback-form-grid">
-                                    <div class="feedback-form-main">
                                         <div class="feedback-field">
                                             <label class="feedback-label">
                                                 <i class="bi bi-star-fill me-1"></i>
@@ -214,58 +216,59 @@
                                                 required>{{ old('message') }}</textarea>
 
                                             <div class="feedback-form-help">
-                                                <i class="bi bi-info-circle me-1"></i>
-                                                Help us improve with honest feedback.
+                                                Honest feedback helps us improve.
                                             </div>
                                         </div>
+
+                                        <div class="feedback-submit-wrap">
+                                            <button type="submit" class="btn feedback-submit-btn">
+                                                <i class="bi bi-send-fill me-2"></i>
+                                                Submit Feedback
+                                            </button>
+                                        </div>
+                                    </form>
+                                @else
+                                    <div class="feedback-locked-box">
+                                        <div class="feedback-locked-icon">
+                                            <i class="bi bi-check2-circle"></i>
+                                        </div>
+                                        <h4>Feedback already submitted</h4>
+                                        <p>You can only submit feedback once. Delete your current feedback below if you want to submit a new one later.</p>
                                     </div>
+                                @endif
+                            </section>
 
-                                    <aside class="feedback-side-note">
-                                        <div class="feedback-tip-card">
-                                            <div class="feedback-tip-icon">
-                                                <i class="bi bi-lightbulb-fill"></i>
-                                            </div>
-                                            <h4>Helpful Tips</h4>
-                                            <ul>
-                                                <li>Rate your overall service experience.</li>
-                                                <li>Mention service quality and timing.</li>
-                                                <li>Tell us what we can improve.</li>
-                                            </ul>
-                                        </div>
-                                    </aside>
-                                </div>
+                            <aside class="feedback-side-card">
+                                <h3 class="feedback-side-title">Feedback Guide</h3>
+                                <ul class="feedback-side-list">
+                                    <li>Rate your overall service experience.</li>
+                                    <li>Mention service quality and timing.</li>
+                                    <li>Tell us what we can improve.</li>
+                                    <li>Only one feedback is allowed per customer.</li>
+                                </ul>
+                            </aside>
+                        </div>
 
-                                <div class="feedback-submit-wrap">
-                                    <button type="submit" class="btn feedback-submit-btn">
-                                        <i class="bi bi-send-fill me-2"></i>
-                                        Submit Feedback
-                                    </button>
-                                </div>
-                            </form>
-                        </section>
-
-                        <section class="feedback-section-block feedback-history-section">
-                            <div class="feedback-section-head">
-                                <div>
-                                    <h3>My Recent Feedback</h3>
-                                    <p>Your latest submitted reviews and comments.</p>
-                                </div>
+                        <div class="feedback-history-wrap">
+                            <div class="feedback-panel-head">
+                                <h3>My Feedback</h3>
+                                <p>Your submitted review and comment.</p>
                             </div>
 
-                            @if (($myFeedback ?? collect())->isNotEmpty())
+                            @if ($feedbackCollection->isNotEmpty())
                                 <div class="feedback-list">
-                                    @foreach($myFeedback as $fb)
+                                    @foreach($feedbackCollection as $fb)
                                         <div class="feedback-item">
                                             <div class="feedback-item-top">
                                                 <div class="feedback-date-wrap">
                                                     <i class="bi bi-calendar3"></i>
                                                     <span>
-                                                        {{ $fb->created_at->format('M d, Y') }}
-                                                        <small>at {{ $fb->created_at->format('h:i A') }}</small>
+                                                        {{ optional($fb->created_at)->format('M d, Y') ?? 'No date' }}
+                                                        <small>at {{ optional($fb->created_at)->format('h:i A') ?? '--:-- --' }}</small>
                                                     </span>
                                                 </div>
 
-                                                <form action="{{ route('feedback.destroy', $fb) }}" method="POST"
+                                                <form action="{{ route('feedback.destroy', $fb->id) }}" method="POST"
                                                       onsubmit="return confirm('Are you sure you want to delete this feedback?');">
                                                     @csrf
                                                     @method('DELETE')
@@ -276,12 +279,12 @@
                                             </div>
 
                                             <div class="feedback-stars-row">
-                                                <div class="feedback-stars" aria-label="Rating: {{ $fb->rating }} out of 5">
+                                                <div class="feedback-stars" aria-label="Rating: {{ (int) $fb->rating }} out of 5">
                                                     @for($i = 1; $i <= 5; $i++)
-                                                        {!! $i <= (int) $fb->rating ? '★' : '☆' !!}
+                                                        {{ $i <= (int) $fb->rating ? '★' : '☆' }}
                                                     @endfor
                                                 </div>
-                                                <span class="feedback-stars-text">{{ $fb->rating }}/5</span>
+                                                <span class="feedback-stars-text">{{ (int) $fb->rating }}/5</span>
                                             </div>
 
                                             <div class="feedback-message">
@@ -296,10 +299,10 @@
                                         <i class="bi bi-chat-dots"></i>
                                     </div>
                                     <h3>No feedback yet</h3>
-                                    <p>You haven’t submitted any feedback yet. Share your experience using the form above.</p>
+                                    <p>You haven’t submitted any feedback yet.</p>
                                 </div>
                             @endif
-                        </section>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -307,13 +310,12 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const btn = document.getElementById('sidebarToggle');
-            if (!btn) return;
-
             const body = document.body;
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const mobileSidebarToggle = document.getElementById('mobileSidebarToggle');
+            const overlay = document.getElementById('sidebarOverlay');
             const KEY = 'eb_user_sidebar_collapsed';
 
             try {
@@ -322,35 +324,33 @@
                 }
             } catch (e) {}
 
-            btn.addEventListener('click', function (e) {
-                e.preventDefault();
-                body.classList.toggle('sidebar-collapsed');
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    body.classList.toggle('sidebar-collapsed');
+                    try {
+                        localStorage.setItem(KEY, body.classList.contains('sidebar-collapsed') ? '1' : '0');
+                    } catch (e) {}
+                });
+            }
 
-                try {
-                    localStorage.setItem(KEY, body.classList.contains('sidebar-collapsed') ? '1' : '0');
-                } catch (e) {}
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const mobileBtn = document.getElementById('mobileSidebarToggle');
-            const overlay = document.getElementById('sidebarOverlay');
-
-            if (mobileBtn) {
-                mobileBtn.addEventListener('click', function () {
-                    document.body.classList.add('sidebar-mobile-open');
+            if (mobileSidebarToggle) {
+                mobileSidebarToggle.addEventListener('click', function () {
+                    body.classList.add('sidebar-mobile-open');
                 });
             }
 
             if (overlay) {
                 overlay.addEventListener('click', function () {
-                    document.body.classList.remove('sidebar-mobile-open');
+                    body.classList.remove('sidebar-mobile-open');
                 });
             }
 
             document.querySelectorAll('#side-bar .nav-link, #side-bar .dropdown-item').forEach(el => {
                 el.addEventListener('click', function () {
-                    document.body.classList.remove('sidebar-mobile-open');
+                    if (window.innerWidth < 992) {
+                        body.classList.remove('sidebar-mobile-open');
+                    }
                 });
             });
         });

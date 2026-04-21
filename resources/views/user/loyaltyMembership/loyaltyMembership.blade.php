@@ -25,6 +25,14 @@
 
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+    @php
+        $is = fn(...$r) => request()->routeIs(...$r) ? 'active' : '';
+        $loyaltyOrders = collect($orders ?? $recent ?? []);
+        $completedCount = isset($completed)
+            ? $completed
+            : $loyaltyOrders->where('status', 'completed')->count();
+    @endphp
+
     <div class="app-shell">
         <aside id="side-bar" class="d-flex flex-column flex-shrink-0 p-3">
             <div class="d-flex justify-content-end mb-2">
@@ -41,14 +49,6 @@
 
             <hr>
 
-            @php
-                $is = fn(...$r) => request()->routeIs(...$r) ? 'active' : '';
-                $loyaltyOrders = collect($orders ?? $recent ?? []);
-                $completedCount = isset($completed)
-                    ? $completed
-                    : $loyaltyOrders->where('status', 'completed')->count();
-            @endphp
-
             <ul class="nav nav-pills flex-column mb-auto">
                 <li>
                     <a href="{{ route('user.dashboard') }}"
@@ -62,7 +62,7 @@
                 <li>
                     <a href="{{ route('loyalty.membership') }}"
                        class="nav-link {{ $is('loyalty.membership', 'loyalty_membemship') }}"
-                       id="nav-customers">
+                       id="nav-loyalty">
                         <i class="bi bi-award me-2"></i>
                         <span>Loyalty Membership</span>
                     </a>
@@ -71,7 +71,7 @@
                 <li>
                     <a href="{{ route('user.orders.history') }}"
                        class="nav-link {{ $is('user.orders.history') }}"
-                       id="nav-services">
+                       id="nav-history">
                         <i class="bi bi-clock-history me-2"></i>
                         <span>Order History</span>
                     </a>
@@ -130,17 +130,16 @@
             </div>
         </aside>
 
-        <main class="main-content p-4 p-lg-5">
-            <div class="container-fluid">
-                <div class="loyalty-page-top">
-                    <div>
-                        <h1 class="page-title mb-1">Loyalty Membership</h1>
-                        <p class="loyalty-page-subtitle mb-0">Track your progress and free-load rewards.</p>
-                    </div>
+        <main class="main-content p-4">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
+                <div>
+                    <h1 class="page-title">Loyalty Membership</h1>
                 </div>
+            </div>
 
-                <hr>
+            <hr class="mb-4">
 
+            <div class="container-fluid loyalty-container">
                 @if (session('success'))
                     <div class="alert eb-alert-success mb-3">
                         <i class="bi bi-check-circle-fill me-2"></i>
